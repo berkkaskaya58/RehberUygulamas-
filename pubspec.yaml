@@ -1,0 +1,42 @@
+name: telefon_rehberi
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  animated_bottom_navigation_bar: ^1.3.3
+  image_picker: ^1.1.2
+  url_launcher: ^6.3.0
+  google_fonts: ^6.2.1
+  flutter_localization: ^0.2.2
+  easy_localization: ^3.0.7
+  provider: ^6.1.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/translations/
+    
+
+    
+
+    # Ensure this asset is included here
+
+# Remove the comment below to avoid any syntax issues.
+# An image asset can refer to one or more resolution-specific "variants", see
