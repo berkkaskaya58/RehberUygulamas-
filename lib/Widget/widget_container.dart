@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
 
 class SquareContainer extends StatelessWidget {
   final String text;

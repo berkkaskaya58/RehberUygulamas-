@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/route_manager.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
-import 'package:telefon_rehberi/page/sign_page.dart';
+import 'package:telefon_rehberi/view/view_sign_up/sign_up_page.dart';
 
 class Ifyoudonthaveaccound extends StatelessWidget {
   const Ifyoudonthaveaccound({super.key});
@@ -17,12 +19,8 @@ class Ifyoudonthaveaccound extends StatelessWidget {
                       ),
                       GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignPage(),
-                              ),
-                            );
+                         Get.to(() => SignPage());
+
                           },
                           child: BasicText(
                             title: LocaleKeys.createAccound,

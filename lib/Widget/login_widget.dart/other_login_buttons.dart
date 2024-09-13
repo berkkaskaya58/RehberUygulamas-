@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/widget_button.dart';
+import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_image.dart';

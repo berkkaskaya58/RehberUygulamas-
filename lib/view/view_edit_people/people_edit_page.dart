@@ -1,16 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
 import 'package:telefon_rehberi/future.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
-import 'package:telefon_rehberi/ui/ui_font.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
-import 'package:telefon_rehberi/Widget/widget_button.dart';
-import 'package:telefon_rehberi/Widget/widget_textFieldEMail.dart';
-import 'package:telefon_rehberi/Widget/widget_textFieldName.dart';
-import 'package:telefon_rehberi/Widget/widget_textFieldNumber.dart';
+import 'package:telefon_rehberi/widget/widget_button.dart';
+import 'package:telefon_rehberi/widget/widget_textFieldEMail.dart';
+import 'package:telefon_rehberi/widget/widget_textFieldName.dart';
+import 'package:telefon_rehberi/widget/widget_textFieldNumber.dart';
 
 class EditPerson extends StatefulWidget {
   EditPerson({super.key});

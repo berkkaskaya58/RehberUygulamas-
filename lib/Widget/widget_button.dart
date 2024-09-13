@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 
 class ButtonBasic extends StatelessWidget {
@@ -34,6 +34,7 @@ class ButtonBasic extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
+          
           func();
         },
         child: Container(
@@ -42,7 +43,7 @@ class ButtonBasic extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(color: UIColors.borderColor),
             color: color ?? UIColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -55,7 +56,7 @@ class ButtonBasic extends StatelessWidget {
                       )
                     : Container(),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: BasicText(
                       title: text,
                       titleColor: titleColor ?? UIColors.white,

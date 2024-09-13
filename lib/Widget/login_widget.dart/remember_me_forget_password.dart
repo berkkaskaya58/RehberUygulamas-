@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
-import 'package:telefon_rehberi/Widget/widget_checkBox.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/widget_checkBox.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 
 class RemembermeForgetpassword extends StatelessWidget {

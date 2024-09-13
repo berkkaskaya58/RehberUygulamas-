@@ -1,16 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
-import 'package:telefon_rehberi/future.dart';
+import 'package:get/get.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/controller/addPeople_controller.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
-import 'package:telefon_rehberi/ui/ui_font.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
-import 'package:telefon_rehberi/Widget/widget_button.dart';
-import 'package:telefon_rehberi/Widget/widget_textFieldEMail.dart';
-import 'package:telefon_rehberi/Widget/widget_textFieldName.dart';
-import 'package:telefon_rehberi/Widget/widget_textFieldNumber.dart';
+import 'package:telefon_rehberi/widget/widget_button.dart';
+import 'package:telefon_rehberi/widget/widget_textFieldEMail.dart';
+import 'package:telefon_rehberi/widget/widget_textFieldName.dart';
+import 'package:telefon_rehberi/widget/widget_textFieldNumber.dart';
 
 class PeopleAdd extends StatefulWidget {
   PeopleAdd({super.key});
@@ -20,35 +19,13 @@ class PeopleAdd extends StatefulWidget {
 }
 
 class _PeopleAddState extends State<PeopleAdd> {
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final List<TextEditingController> phoneNumberControllers = [
-    TextEditingController()
-  ];
-  final List<FocusNode> phoneNumberFocusNodes = [FocusNode()]; // FocusNode listesi
-  final FocusNode nameFocusNode = FocusNode();
-  final FocusNode eMailFocusNode = FocusNode();
+  // Controller'ı burada tanımlayın
+  final addPeopleController = Get.put(AddpeopleController());
+
+  
   File? _imagePath;
 
-  void _addPhoneNumberField() {
-    setState(() {
-      // Yeni controller ve focus node ekle
-      phoneNumberControllers.add(TextEditingController());
-      phoneNumberFocusNodes.add(FocusNode());
-
-      
-    
-    });
-  }
-
-  Future<void> _selectImage() async {
-    final pickedImage = await FutureVoid.pickImageFromGallery();
-    setState(() {
-      _imagePath = pickedImage;
-    });
-  }
-
-
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +60,10 @@ class _PeopleAddState extends State<PeopleAdd> {
                     ),
                   ),
                   Align(
-                   child:BasicText(title:  LocaleKeys.addPerson,fontWeight: FontWeight.w500,)
+                   child: BasicText(
+                      title: LocaleKeys.addPerson,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Image.asset(
                     IconPath.clock,
@@ -97,32 +77,32 @@ class _PeopleAddState extends State<PeopleAdd> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: _selectImage,
-                    child: _imagePath == null
-                        ? Image.asset(IconPath.addPhoto)
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.file(
-                              _imagePath!,
-                              width: 72,
-                              height: 72,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                    onTap: addPeopleController.selectImage,
+                    child: Obx(() {
+                      return addPeopleController.images.isEmpty
+                          ? Image.asset(IconPath.addPhoto)
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.file(
+                                File(addPeopleController.images.first.path),
+                                width: 72,
+                                height: 72,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                    }),
                   ),
                 ],
               ),
               SizedBox(height: paddingTop / 2),
               CustomTextFieldName(
-                controller: nameController,
+                controller: addPeopleController.nameController,
                 hintText: LocaleKeys.hintTextNameSurname,
                 obscureText: false,
-                focusNode: nameFocusNode,
-                nextFocusNode: phoneNumberFocusNodes.isNotEmpty
-                    ? phoneNumberFocusNodes.first
-                    : null,
+                focusNode: addPeopleController.nameFocusNode,
+                nextFocusNode: addPeopleController.nameFocusNode
               ),
-              ...phoneNumberControllers.asMap().entries.map((entry) {
+              ...addPeopleController.phoneNumberControllers.asMap().entries.map((entry) {
                 int index = entry.key;
                 return Padding(
                   padding: EdgeInsets.only(top: paddingTop / 3),
@@ -130,30 +110,30 @@ class _PeopleAddState extends State<PeopleAdd> {
                     controller: entry.value,
                     hintText: LocaleKeys.phoneNumber,
                     obscureText: false,
-                    focusNode: phoneNumberFocusNodes[index],
-                    nextFocusNode: (index + 1 < phoneNumberFocusNodes.length)
-                        ? phoneNumberFocusNodes[index + 1]
-                        : eMailFocusNode,
+                    focusNode: addPeopleController.phoneNumberFocusNodes[index],
+                    nextFocusNode: (index + 1 < addPeopleController.phoneNumberFocusNodes.length)
+                        ? addPeopleController.phoneNumberFocusNodes[index + 1]
+                        : addPeopleController.eMailFocusNode,
                   ),
                 );
               }).toList(),
               SizedBox(height: paddingTop / 5),
               GestureDetector(
-                onTap: _addPhoneNumberField,
+                onTap: addPeopleController.addPhoneNumber,
                 child: Row(
                   children: [
-                    ImageIcon(AssetImage(IconPath.add)),
+                    const ImageIcon(AssetImage(IconPath.add)),
                     const SizedBox(width: 8),
-                   BasicText(title: LocaleKeys.addOneMoreNumber,fontSize: 14,),
+                    BasicText(title: LocaleKeys.addOneMoreNumber, fontSize: 14),
                   ],
                 ),
               ),
               SizedBox(height: paddingTop / 5),
               CustomTextFieldEMail(
-                controller: emailController,
+                controller: addPeopleController.emailController,
                 hintText: LocaleKeys.ePosta,
                 obscureText: false,
-                focusNode: eMailFocusNode,
+                focusNode: addPeopleController.eMailFocusNode,
               ),
               const Spacer(),
               ButtonBasic(

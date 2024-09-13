@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
-import 'package:telefon_rehberi/page/home_page.dart';
-import 'package:telefon_rehberi/page/last_wanted_page.dart';
-import 'package:telefon_rehberi/page/quick_calls_page.dart';
+import 'package:telefon_rehberi/view/view_home/home_page.dart';
+import 'package:telefon_rehberi/view/view_add_people/last_wanted_page.dart';
+import 'package:telefon_rehberi/view/view_quick_calls/quick_calls_page.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/ui/ui_text.dart';
@@ -22,7 +22,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   final List<Widget> _pages = [
     quickCalls(), // İlk harfi büyük yapıldı
     lastWantedPage(),
-    HomePage(),
+     HomePage(),
     Container(),
     Container(),
   ];

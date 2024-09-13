@@ -19,6 +19,10 @@ dependencies:
   flutter_localization: ^0.2.2
   easy_localization: ^3.0.7
   provider: ^6.1.2
+  dio: ^5.7.0
+  get: ^4.6.6
+  http: ^1.2.2
+  hive_flutter: ^1.1.0
 
 
 dev_dependencies:

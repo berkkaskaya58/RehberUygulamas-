@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/data.dart';
-import 'package:telefon_rehberi/page/people_add_page.dart';
-import 'package:telefon_rehberi/page/people_detail_page.dart';
+import 'package:telefon_rehberi/view/view_add_people/people_add_page.dart';
+import 'package:telefon_rehberi/view/view_people_detail/people_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -57,14 +57,14 @@ class _HomePageState extends State<HomePage> {
                   itemCount: veriler.isimler.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PeopleDetail(),
-                          ),
-                        );
-                      },
+                      // onTap: () {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => PeopleDetail(index: index,),
+                      //     ),
+                      //   );
+                      // },
                       leading: Image.asset(
                           'assets/${veriler.resimler[index]}.png'),
                       title: Text(veriler.isimler[index]),

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/page/main.dart';
+import 'package:telefon_rehberi/main.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/ui/ui_text.dart';
@@ -14,7 +14,7 @@ class CustomTextFieldEMail extends StatefulWidget {
   final Function? func;
   final FocusNode? focusNode;
   final FocusNode? nextFocusNode;
-  final Function? onChangedCallback;
+  final Function? onChanged;
 
   CustomTextFieldEMail({
     super.key,
@@ -25,7 +25,7 @@ class CustomTextFieldEMail extends StatefulWidget {
     this.func,
     this.focusNode,
     this.nextFocusNode,
-    this.onChangedCallback,
+    this.onChanged,
   });
 
   @override
@@ -73,6 +73,7 @@ class _CustomTextFieldState extends State<CustomTextFieldEMail> {
           width: 390,
           height: paddingTop / 15,
           child: TextField(
+            
             focusNode: widget.focusNode,
             onSubmitted: (_) {
               if (widget.nextFocusNode != null) {
@@ -119,15 +120,15 @@ class _CustomTextFieldState extends State<CustomTextFieldEMail> {
                   : null,
             ),
             onChanged: (text) {
-              if (widget.onChangedCallback != null) {
-                widget.onChangedCallback!(text);
+              if (widget.onChanged != null) {
+                widget.onChanged!(text);
               }
 
               setState(() {
                 // E-posta formatı kontrolü
                 if (text.contains('@') && text.endsWith('.com')) {
                   isValidEmail = false;
-                } else if(text.length==0){
+                } else if(text.isEmpty){
                   isValidEmail = false;
                 }
                 else{

@@ -1,76 +1,26 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/Widget/basicText.dart';
-import 'package:telefon_rehberi/Widget/widget_button.dart';
-import 'package:telefon_rehberi/future.dart';
+import 'package:get/get.dart';
+import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/widget_button.dart';
+import 'package:telefon_rehberi/widget/widget_container.dart';
+import 'package:telefon_rehberi/controller/peopleDeatil_controller.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
-import 'package:telefon_rehberi/page/people_edit_page.dart';
+import 'package:telefon_rehberi/model/user_model.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
-import 'package:telefon_rehberi/Widget/widget_container.dart';
-import 'package:telefon_rehberi/ui/ui_font.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:telefon_rehberi/view/view_edit_people/people_edit_page.dart';
 
-class PeopleDetail extends StatefulWidget {
-  PeopleDetail({super.key});
-
-  @override
-  State<PeopleDetail> createState() => _PeopleDetailState();
-}
-
-class _PeopleDetailState extends State<PeopleDetail> {
-  File? _imagePath;
-  final List<TextEditingController> phoneNumberControllers = [
-    TextEditingController()
-  ];
-
-  void _addPhoneNumberField() {
-    setState(() {
-      phoneNumberControllers.add(TextEditingController());
-    });
-  }
-
-  Future<void> _selectImage() async {
-    final pickedImage = await FutureVoid.pickImageFromGallery();
-    setState(() {
-      _imagePath = pickedImage;
-    });
-  }
-
-
-
-  Future<void> message() async {
+class PeopleDetail extends StatelessWidget {
    
+   UsersModelData? model;
+  PeopleDetail({super.key,  this.model});
 
-    final Uri launchUri = Uri(
-      scheme: 'sms',
-      path: '+904445553525', // Boşluk olmadan
-    );
+  final peopleDetailController = Get.put(PeopledeatilController());
 
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      print("Could not launch $launchUri");
-    }
-  }
-  static Future<void> eMail() async {
-    final Uri launchUri = Uri(scheme: 'mailto', path:'berkkaskaya01@gmail.com' );
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      print("Could not launch $launchUri");
-    }
-  }
-    static Future<void> makePhoneCall() async {
-    final Uri launchUri = Uri(scheme: 'tel', path:'+904445553525' );
-    if (await canLaunchUrl(launchUri)) {
-      await launchUrl(launchUri);
-    } else {
-      print("Could not launch $launchUri");
-    }
-  }
+  
+
   @override
   Widget build(BuildContext context) {
     double paddingTop = MediaQuery.of(context).size.height * 0.015;
@@ -115,15 +65,19 @@ class _PeopleDetailState extends State<PeopleDetail> {
                       ),
                     ],
                   ),
-                  Image.asset(IconPath.addPhoto),
+                 ClipOval(
+                  
+                  child: Image.network(model?.avatar ?? '')),
+
+
                   SizedBox(
                     height: paddingTop,
                   ),
-                  Text("Annem"),
+                Text(model?.firstName ?? ''), 
                   SizedBox(
                     height: paddingTop / 30,
                   ),
-                  Text("+90 4445553525"),
+                  Text(model?.email ?? ''),
                   SizedBox(
                     height: paddingTop,
                   ),
@@ -133,7 +87,7 @@ class _PeopleDetailState extends State<PeopleDetail> {
                       GestureDetector(
                         onTap: () async {
                          
-                          message();
+                          peopleDetailController.message();
                         },
                         child: SquareContainer(
                           text: LocaleKeys.message,
@@ -145,7 +99,7 @@ class _PeopleDetailState extends State<PeopleDetail> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          makePhoneCall();
+                         peopleDetailController.makePhoneCall();
                         },
                         child: SquareContainer(
                           imagePath: IconPath.phone,
@@ -164,7 +118,7 @@ class _PeopleDetailState extends State<PeopleDetail> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          eMail();
+                         peopleDetailController.eMail();
                         },
                         child: SquareContainer(
                           imagePath: IconPath.ePosta,
@@ -186,11 +140,7 @@ class _PeopleDetailState extends State<PeopleDetail> {
                         text: LocaleKeys.editPerson,
                          fontSize: 14,
                         func: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditPerson(),
-                              ));
+                         Get.to(EditPerson());
                         }),
                   ),
                   SizedBox(
