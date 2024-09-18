@@ -1,7 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/instance_manager.dart';
-import 'package:telefon_rehberi/textField_error_controller.dart';
+import 'package:get/get.dart';
 import 'package:telefon_rehberi/ui/ui_text.dart';
 import 'package:telefon_rehberi/widget/basicText.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
@@ -18,31 +17,33 @@ import 'package:telefon_rehberi/widget/login_widget.dart/remember_me_forget_pass
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final textFieldErrorController =
-      Get.put(TextfieldErrorController()); // Controller'ı GetX ile bağla
-       final loginController =
-      Get.put(LoginController()); // Controller'ı GetX ile bağla
+  final loginController = Get.put(LoginController()); // Controller'ı GetX ile bağla
 
   @override
   Widget build(BuildContext context) {
     double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
     double paddingTop = MediaQuery.of(context).size.height * 0.05;
-    double paddingBottom = MediaQuery.of(context).size.height * 0.05;
+    String email = '';
+    String password = '';
+    final formKey = GlobalKey<FormState>();
+    final fireBaseAuth = FirebaseAuth.instance;
 
     return Obx(
       () => Scaffold(
         backgroundColor: UIColors.white,
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: paddingHorizontal,
-                  right: paddingHorizontal,
-                  top: paddingTop,
-                  bottom: paddingBottom,
-                ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: paddingHorizontal,
+              right: paddingHorizontal,
+              top: paddingTop,
+            ),
+            child: SingleChildScrollView(
+              physics: MediaQuery.of(context).viewInsets.bottom > 0
+                  ? const ScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
+              child: Form(
+                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -50,6 +51,9 @@ class LoginPage extends StatelessWidget {
                     Image.asset(
                       ImagePath.logoIpsum,
                       fit: BoxFit.contain,
+                    ),
+                    SizedBox(
+                      height: paddingTop * 2,
                     ),
                     // Form alanları
                     Column(
@@ -60,85 +64,102 @@ class LoginPage extends StatelessWidget {
                               title: LocaleKeys.login,
                               fontWeight: FontWeight.w600,
                               fontSize: 24,
-                            )
+                            ),
                           ],
                         ),
                         SizedBox(height: paddingTop / 2),
                         CustomTextField(
-                         controller: textFieldErrorController.emailController,
+                          onSaved: (value) {
+                            email = value ?? '';
+                          },
+                          focusNode: loginController.emailFocusNode,
+                          nextFocusNode: loginController.passwordFocusNode,
+                          showIcon: false,
+                          controller: loginController.emailController,
                           onChanged: (p0) {
-                            textFieldErrorController
-                                .isEmail(textFieldErrorController.emailController.text);
-                            textFieldErrorController.emailBorderColor =
-                                textFieldErrorController.getEmailBorderColor(
-                                    textFieldErrorController.emailController.text);
-                          
-                          }, // Fonksiyonu onChanged'de kullan
-                          borderSideColors: textFieldErrorController.emailBorderColor.value,
+                            loginController.isEmail(loginController.emailController.text);
+                            loginController.emailBorderColor =
+                                loginController.getEmailBorderColor(loginController.emailController.text);
+                          },
+                          borderSideColors: loginController.emailBorderColor.value,
+                          backgroundColor: loginController.isValidEmail.value
+                              ? UIColors.noErrorColor
+                              : UIColors.errorColor,
                           hintText: LocaleKeys.hintTextMail,
                           obscureText: false,
-                          
-                          
                         ),
-
-                        textFieldErrorController.isValidEmail.value
+                        loginController.isValidEmail.value
                             ? Container()
                             : Align(
                                 alignment: Alignment.centerLeft,
                                 child: BasicText(
                                   titleColor: UIColors.errorMessageColor,
-                                  title: UIText.errorMessage,
+                                  title: UIText.errorMessageEmail,
                                   fontSize: 12,
-                                )),
+                                ),
+                              ),
                         SizedBox(height: paddingTop / 5),
-
                         CustomTextField(
-                          controller: textFieldErrorController.passwordController,
+                          onSaved: (value) {
+                            password = value ?? '';
+                          },
+                          focusNode: loginController.passwordFocusNode,
+                          showIcon: true,
+                          controller: loginController.passwordController,
                           onChanged: (p0) {
-                            textFieldErrorController.isPassword(textFieldErrorController
-                                .passwordController.text);
-                            textFieldErrorController.passwordBorderColor =
-                                textFieldErrorController.getpasswordBorderColor(
-                                    textFieldErrorController.passwordController.text);
-                            // textFieldErrorController.errorColor =
-                            //     textFieldErrorController.getPasswordColor(
-                            //         textFieldErrorController.emailController.text);
-                          }, // GetX ile yönetiliyor
-                           borderSideColors: textFieldErrorController.passwordBorderColor.value,
+                            loginController.isPassword(loginController.passwordController.text);
+                            loginController.passwordBorderColor =
+                                loginController.getpasswordBorderColor(loginController.passwordController.text);
+                          },
+                          borderSideColors: loginController.passwordBorderColor.value,
+                          backgroundColor: loginController.isCorrectPassword.value
+                              ? UIColors.errorColor
+                              : UIColors.noErrorColor,
                           hintText: LocaleKeys.hintTextPassword,
                           obscureText: true,
-
-                          //errorMessage: loginController.passwordErrorMessage(),
                         ),
-                        textFieldErrorController.isCorrectPassword.value
+                        loginController.isCorrectPassword.value
                             ? Align(
-                              
                                 alignment: Alignment.centerLeft,
                                 child: BasicText(
                                   titleColor: UIColors.errorMessageColor,
-                                  title: UIText.errorMessage,
+                                  title: UIText.errorMessagePassword,
                                   fontSize: 12,
-                                ))
+                                ),
+                              )
                             : Container(),
                         SizedBox(height: paddingTop / 5),
                         const RemembermeForgetpassword(),
                         SizedBox(height: paddingTop / 2),
-
                         // Buton ve Yükleniyor Durumu
                         Obx(() {
                           return loginController.isLoading.value
                               ? const CircularProgressIndicator()
                               : ButtonBasic(
                                   text: LocaleKeys.login,
-                                  func: loginController
-                                      .login, // GetX login işlemi
+                                  func: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      formKey.currentState!.save(); // Form verilerini kaydet
+                                      try {
+                                        var userResult = await fireBaseAuth.signInWithEmailAndPassword(
+                                          email: email,
+                                          password: password,
+                                        );
+                                        loginController.login();
+                                      } catch (e) {
+                                        Get.snackbar("Hata", "Kayıtlı Kullanıcı Bulunamadı!! ");
+                                        print(e.toString());
+                                      }
+                                    }
+                                  },
                                 );
                         }),
-
                         const Customdivider(),
-                        const OtherLoginButtons(),
-                        SizedBox(height: paddingTop / 5),
+                        OtherLoginButtons(),
                       ],
+                    ),
+                    SizedBox(
+                      height: paddingTop * 1.5,
                     ),
                     const Ifyoudonthaveaccound(),
                   ],

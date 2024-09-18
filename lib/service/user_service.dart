@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:telefon_rehberi/model/user_model.dart';
 
 class UserService {
-  final String url = 'https://192.168.12.80/';
+  final  url = 'https://reqres.in/api/users?page=2';
 
   Future<UsersModel?> fetchUsers() async {
     try {
@@ -13,6 +13,7 @@ class UserService {
         return UsersModel.fromJson(jsonBody);
       } else {
         print("İstek başarısız oldu => ${res.statusCode}");
+       
       }
     } catch (e) {
       print("Bir hata oluştu: $e");

@@ -71,21 +71,21 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                   itemCount: users.length,
                   itemBuilder: (context, index) {
-                    final user = users[index];
+                   
                     return ListTile(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PeopleDetail(model:user,),
+                            builder: (context) => PeopleDetail(model:users[index],),
                           ),
                         );
                       },
                       leading: CircleAvatar(
-                        backgroundImage: NetworkImage('${user.avatar}'),
+                        backgroundImage: NetworkImage('${users[index].avatar}'),
                       ),
-                      title: Text('${user.firstName ?? ""} ${user.lastName ?? ""}'),
-                      subtitle: Text("${user.email}"),
+                      title: Text('${users[index].firstName ?? ""} ${users[index].lastName ?? ""}'),
+                      subtitle: Text("${users[index].email}"),
                     );
                   },
                 ),

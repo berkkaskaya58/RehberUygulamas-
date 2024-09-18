@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "613266403122",
+    "project_id": "berkflutterfirebase",
+    "storage_bucket": "berkflutterfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613266403122:android:972c01602f34e86799712b",
+        "android_client_info": {
+          "package_name": "com.example.telefon_rehberi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsLL4cLiQg2YbrSq3kDcOCo4R4DVOlT8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

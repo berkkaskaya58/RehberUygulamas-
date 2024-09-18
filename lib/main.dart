@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart'; // Easy Localization paketini dahil edin
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:telefon_rehberi/firebase_options.dart';
 import 'package:telefon_rehberi/storage/app_storage.dart';
 import 'package:telefon_rehberi/view/view_login/login_page.dart';
-
 void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await AppStorage.appStorageInitialize();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized(); // Yerelleştirme başlatma

@@ -1,7 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telefon_rehberi/ui/ui_image.dart';
 import 'package:telefon_rehberi/widget/basicText.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_container.dart';
@@ -13,13 +13,10 @@ import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/view/view_edit_people/people_edit_page.dart';
 
 class PeopleDetail extends StatelessWidget {
-   
-   UsersModelData? model;
-  PeopleDetail({super.key,  this.model});
+  UsersModelData? model;
+  PeopleDetail({super.key, this.model});
 
   final peopleDetailController = Get.put(PeopledeatilController());
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +53,44 @@ class PeopleDetail extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: paddingHorizontal),
-                        child: BasicText(title:  LocaleKeys.personDetail,fontWeight: FontWeight.w500,)
-                      ),
+                          padding: EdgeInsets.only(right: paddingHorizontal),
+                          child: BasicText(
+                            title: LocaleKeys.personDetail,
+                            fontWeight: FontWeight.w500,
+                          )),
                       const ImageIcon(
                         color: Colors.transparent,
                         AssetImage(IconPath.addPhoto),
                       ),
                     ],
                   ),
-                 ClipOval(
-                  
-                  child: Image.network(model?.avatar ?? '')),
+                  //  ClipOval(
 
+                  //   child: Image.network(model?.avatar ?? '')),
 
-                  SizedBox(
-                    height: paddingTop,
+                  //   SizedBox(
+                  //     height: paddingTop,
+                  //   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: peopleDetailController.selectImage,
+                          child: model?.avatar == null
+                              ? SizedBox(
+                                  width: 300,
+                                  height: 50,
+                                  child: Image.asset(ImagePath.notFound404))
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.network(
+                                      model?.avatar ?? IconPath.addPhoto),
+                                )),
+                    ],
                   ),
-                Text(model?.firstName ?? ''), 
+                  Text(
+                    '${model?.firstName} ' '${model?.lastName}',
+                  ),
                   SizedBox(
                     height: paddingTop / 30,
                   ),
@@ -86,7 +103,6 @@ class PeopleDetail extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                         
                           peopleDetailController.message();
                         },
                         child: SquareContainer(
@@ -99,7 +115,7 @@ class PeopleDetail extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                         peopleDetailController.makePhoneCall();
+                          peopleDetailController.makePhoneCall();
                         },
                         child: SquareContainer(
                           imagePath: IconPath.phone,
@@ -118,7 +134,7 @@ class PeopleDetail extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                         peopleDetailController.eMail();
+                          peopleDetailController.eMail();
                         },
                         child: SquareContainer(
                           imagePath: IconPath.ePosta,
@@ -132,26 +148,26 @@ class PeopleDetail extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: ButtonBasic(
-                        heigth: 58,
+                       
                         mainAxisAlignment: MainAxisAlignment.start,
                         prefixPath: IconPath.pen2,
                         color: UIColors.white,
-                       titleColor: UIColors.black,
+                        titleColor: UIColors.black,
                         text: LocaleKeys.editPerson,
-                         fontSize: 14,
+                        fontSize: 14,
                         func: () {
-                         Get.to(EditPerson());
+                          Get.to(EditPerson());
                         }),
                   ),
                   SizedBox(
                     height: paddingTop,
                   ),
                   ButtonBasic(
-                      heigth: 58,
+                   
                       mainAxisAlignment: MainAxisAlignment.start,
                       prefixPath: IconPath.share,
                       color: UIColors.white,
-                       titleColor: UIColors.black,
+                      titleColor: UIColors.black,
                       text: LocaleKeys.sharePerson,
                       fontSize: 14,
                       func: () {}),
@@ -159,13 +175,12 @@ class PeopleDetail extends StatelessWidget {
                     height: paddingTop,
                   ),
                   ButtonBasic(
-                      heigth: 58,
                       mainAxisAlignment: MainAxisAlignment.start,
                       prefixPath: IconPath.star,
                       color: UIColors.white,
-                       titleColor: UIColors.black,
+                      titleColor: UIColors.black,
                       text: LocaleKeys.addQuickSearch,
-                       fontSize: 14,
+                      fontSize: 14,
                       func: () {}),
                 ],
               ),

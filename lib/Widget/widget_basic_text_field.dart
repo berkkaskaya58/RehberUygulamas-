@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
@@ -13,6 +13,10 @@ class CustomTextField extends StatefulWidget {
   final Color? borderSideColors;
   final Function(String)? errorMessage;
   final Color? backgroundColor;
+  final List<dynamic>? inputFormatters;
+  final bool showIcon; // İkonun gösterilip gösterilmeyeceği
+    String? keep;
+    final Function(String)? onSaved;
 
   CustomTextField({
     super.key,
@@ -22,9 +26,13 @@ class CustomTextField extends StatefulWidget {
     this.focusNode,
     this.nextFocusNode,
     this.onChanged,
-    this.borderSideColors, 
+    this.borderSideColors,
     this.errorMessage,
     this.backgroundColor,
+    this.inputFormatters,
+    this.showIcon = true, // Varsayılan olarak ikon gösterilecek
+    this.keep,
+    this.onSaved
   });
 
   @override
@@ -41,6 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   void _toggleObscureText() {
+    late String email,password;
     setState(() {
       obscureText = !obscureText;
     });
@@ -53,43 +62,50 @@ class _CustomTextFieldState extends State<CustomTextField> {
         Container(
           width: 390,
           height: 48,
-          child: TextField(
-            
-            focusNode: widget.focusNode,
-            onSubmitted: (_) {
-              if (widget.nextFocusNode != null) {
-                FocusScope.of(context).requestFocus(widget.nextFocusNode); // Sonraki focus'a geçiş
-              } else {
-                FocusScope.of(context).unfocus(); // Fokus kaybı
+          child: TextFormField(
+            onSaved: (value) {
+              if (widget.onSaved != null) {
+                widget.onSaved!(value ?? ''); // onSaved fonksiyonunu çağırın
               }
             },
-            
+            focusNode: widget.focusNode,
+            // onSubmitted: (_) {
+            //   if (widget.nextFocusNode != null) {
+            //     FocusScope.of(context).requestFocus(widget.nextFocusNode); // Sonraki focus'a geçiş
+            //   } else {
+            //     FocusScope.of(context).unfocus(); // Fokus kaybı
+            //   }
+            // },
             keyboardType: TextInputType.visiblePassword,
             controller: widget.controller,
             obscureText: obscureText,
             decoration: InputDecoration(
-              
               contentPadding: const EdgeInsets.all(14.0),
-              fillColor: widget.backgroundColor?? UIColors.white  ,
+              fillColor: widget.backgroundColor ?? UIColors.textFieldBackGround,
               filled: true,
               hintText: widget.hintText,
               hintStyle: TextStyle(color: UIColors.hintText),
               enabledBorder: OutlineInputBorder(
-             
                 borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide(color: widget.borderSideColors ?? UIColors.borderColor),
               ),
               focusedBorder: OutlineInputBorder(
-                
                 borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide(color: widget.borderSideColors ?? UIColors.borderColor),
               ),
-              suffixIcon: GestureDetector(
-                onTap: _toggleObscureText,
-                child: ImageIcon(
-                  AssetImage(obscureText ? IconPath.eye : IconPath.eyeClosed), // Göz simgesi
-                ),
-              ),
+              // İkonun gösterilip gösterilmeyeceğini kontrol edin
+              suffixIcon: widget.showIcon
+                  ? GestureDetector(
+                      onTap: _toggleObscureText,
+                      child: obscureText
+                          ? const ImageIcon(
+                              AssetImage(IconPath.eye),
+                            )
+                          : const ImageIcon(
+                             
+                             AssetImage(IconPath.eyeClosed),),
+                    )
+                  : null,
             ),
             onChanged: (value) {
               if (widget.onChanged != null) {

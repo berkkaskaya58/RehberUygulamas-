@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 
-class AddpeopleController extends GetxController {
+class EditPeopleController extends GetxController {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
    final numberController = TextEditingController();
@@ -13,8 +13,9 @@ class AddpeopleController extends GetxController {
   ];
   final List<FocusNode> phoneNumberFocusNodes = [FocusNode()]; // FocusNode listesi
    final FocusNode nameFocusNode = FocusNode();
+      final FocusNode numberFocusNode = FocusNode();
+
   final FocusNode eMailFocusNode = FocusNode();
-  final FocusNode numberFocusNode = FocusNode();
     Rx<Color> emailBorderColor = UIColors.borderColor.obs;
   Rx<Color> emailErrorColor = UIColors.errorColor.obs;
 

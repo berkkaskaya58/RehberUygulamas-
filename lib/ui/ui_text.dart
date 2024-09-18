@@ -35,7 +35,9 @@ static const lastCalls="Son Aramalar";
 static const peoples="Kişiler";
 static const keyboard="Klavye";
 static const voiceMessage="Sesli Mesaj";
-static const errorMessage="Hatalı Giriş Yaptınız";
+static const errorMessagePassword="Şifreniz 8 karakterden fazla olamaz ";
+static const notSamePassword="Şifreler Uyuşmuyor";
+static const errorMessageEmail="Hatalı Email Girdiniz";
 
 
 }

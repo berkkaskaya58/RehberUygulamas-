@@ -12,8 +12,8 @@ class Customdivider extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        top: paddingTop / 2,
-        bottom: paddingTop / 2,
+        top: paddingTop / 3,
+        bottom: paddingTop /3
       ),
       child: Row(
         children: [

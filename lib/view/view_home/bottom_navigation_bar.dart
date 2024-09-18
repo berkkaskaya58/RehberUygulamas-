@@ -5,7 +5,6 @@ import 'package:telefon_rehberi/view/view_add_people/last_wanted_page.dart';
 import 'package:telefon_rehberi/view/view_quick_calls/quick_calls_page.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar({super.key});
@@ -74,14 +73,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               ],
             ),
           ),
-          Positioned(
-            left: itemWidth * 2,
-            child: Container(
-              width: itemWidth,
-              height: 2.5, // Çizginin kalınlığı
-              color: UIColors.selectedBottomBarIcon, // Çizginin rengi
-            ),
-          ),
+          // Positioned(
+          //   left: itemWidth * _currentIndex,
+          //   child: Container(
+          //     width: itemWidth,
+          //     height: 2.5, // Çizginin kalınlığı
+          //     color: UIColors.selectedBottomBarIcon, // Çizginin rengi
+          //   ),
+          // ),
         ],
       ),
     );

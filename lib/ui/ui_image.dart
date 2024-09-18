@@ -12,6 +12,7 @@ class ImagePath {
           static const String phone = 'assets/images/Phone.png';
         
               static const String video = 'assets/images/Video.png';
+              static const String notFound404='assets/images/404notFound.png';
               
    
    
