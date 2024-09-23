@@ -1,39 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/sign_up_controller.dart';
 import 'package:telefon_rehberi/ui/ui_text.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_image.dart';
-import 'package:telefon_rehberi/widget/ifYouHaveAccound.dart';
+import 'package:telefon_rehberi/widget/if_you_have_accound.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/custom_divider.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_basic_text_field.dart';
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: SignPage(),
-  ));
-}
 
 class SignPage extends StatelessWidget {
-  SignPage({super.key});
-
- 
-  final formKey = GlobalKey<FormState>();
-  
+  const SignPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final fireBaseAuth = FirebaseAuth.instance;
-    String email = '';
-    String password = '';
-    String password2 = '';
-    String name = '';
     final signUpController = Get.put(SignUpController());
 
     double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
@@ -42,6 +26,7 @@ class SignPage extends StatelessWidget {
 
     return Obx(
       () => Scaffold(
+        key: signUpController.globalKey,
         backgroundColor: UIColors.white,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -55,7 +40,7 @@ class SignPage extends StatelessWidget {
                 right: paddingHorizontal,
               ),
               child: Form(
-                key: formKey,
+              key: signUpController.signFormKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -66,7 +51,7 @@ class SignPage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(
                           top: paddingTop * 2, bottom: paddingBottom / 2),
-                      child: Row(
+                      child: const Row(
                         children: [
                           BasicText(
                             title: LocaleKeys.signUp,
@@ -78,7 +63,7 @@ class SignPage extends StatelessWidget {
                     ),
                     CustomTextField(
                       onSaved: (value) {
-                        name = value ?? '';
+                        signUpController.name = value;
                       },
                       showIcon: false,
                       controller: signUpController.nameController,
@@ -90,26 +75,25 @@ class SignPage extends StatelessWidget {
                     SizedBox(height: paddingTop / 4),
                     CustomTextField(
                       onSaved: (value) {
-                        email = value ?? '';
+                        signUpController.email = value;
                       },
                       focusNode: signUpController.emailFocusNode,
                       nextFocusNode: signUpController.passwordFocusNode,
                       showIcon: false,
                       controller: signUpController.emailController,
                       onChanged: (p0) {
-                        signUpController.isEmail(signUpController.emailController.text);
+                        signUpController
+                            .isEmail(signUpController.emailController.text);
                         signUpController.emailBorderColor =
-                            signUpController
-                                .getEmailBorderColor(signUpController.emailController.text);
+                            signUpController.getEmailBorderColor(
+                                signUpController.emailController.text);
                       },
-                      borderSideColors:
-                          signUpController.emailBorderColor.value,
+                      borderSideColors: signUpController.getEmailBorderColor(
+                          signUpController.emailController.text),
                       hintText: LocaleKeys.hintTextMail,
                       obscureText: false,
-                      backgroundColor:
-                          signUpController.isValidEmail.value
-                              ? UIColors.noErrorColor
-                              : UIColors.errorColor,
+                      backgroundColor: signUpController.getEmailBackgroundColor(
+                          signUpController.emailController.text),
                     ),
                     signUpController.isValidEmail.value
                         ? Container()
@@ -123,29 +107,23 @@ class SignPage extends StatelessWidget {
                     SizedBox(height: paddingTop / 4),
                     CustomTextField(
                       onSaved: (value) {
-                        password = value ?? '';
+                        signUpController.password = value;
                       },
                       focusNode: signUpController.passwordFocusNode,
                       nextFocusNode: signUpController.password2FocusNode,
                       showIcon: true,
                       controller: signUpController.passwordController,
                       onChanged: (p0) {
-                        signUpController
-                            .isPassword(signUpController.passwordController.text);
+                        signUpController.isPassword(
+                            signUpController.passwordController.text);
                         signUpController.isPasswordEqual();
                       },
-                      borderSideColors: signUpController
-                                  .isCorrectPassword.value ||
-                              signUpController.areSamePasswords == false
-                          ? UIColors.errorBorderColor
-                          : UIColors.borderColor,
+                      borderSideColors:
+                         signUpController.getpasswordBorderColor(signUpController.passwordController.text),
                       hintText: LocaleKeys.hintTextPassword,
                       obscureText: true,
-                      backgroundColor: signUpController
-                                  .isCorrectPassword.value ||
-                              signUpController.areSamePasswords == false
-                          ? UIColors.errorColor
-                          : UIColors.noErrorColor,
+                      backgroundColor:
+                         signUpController.getPasswordBackgroundColor(signUpController.passwordController.text)
                     ),
                     signUpController.isCorrectPassword.value
                         ? Align(
@@ -160,7 +138,7 @@ class SignPage extends StatelessWidget {
                     SizedBox(height: paddingTop / 4),
                     CustomTextField(
                       onSaved: (value) {
-                        password2 = value ?? '';
+                        signUpController.password2 = value ;
                       },
                       focusNode: signUpController.password2FocusNode,
                       showIcon: true,
@@ -168,18 +146,12 @@ class SignPage extends StatelessWidget {
                       onChanged: (p0) {
                         signUpController.isPasswordEqual();
                       },
-                      borderSideColors: signUpController
-                                  .isCorrectPassword.value ||
-                              signUpController.areSamePasswords == false
-                          ? UIColors.errorBorderColor
-                          : UIColors.borderColor,
+                      borderSideColors:
+                          signUpController.getPassword2BorderColor(),
                       hintText: UIText.hintTextThePasswordAgain,
                       obscureText: true,
-                      backgroundColor: signUpController
-                                  .isCorrectPassword.value ||
-                              signUpController.areSamePasswords == false
-                          ? UIColors.errorColor
-                          : UIColors.noErrorColor,
+                      backgroundColor:
+                        signUpController.getPassword2BackgroundColor(signUpController.passwordController2.text,signUpController.passwordController.text),
                     ),
                     signUpController.areSamePasswords.value
                         ? Container()
@@ -194,27 +166,13 @@ class SignPage extends StatelessWidget {
                     SizedBox(height: paddingTop * 1.5),
                     ButtonBasic(
                       func: () async {
-                        formKey.currentState!.save(); // Form verilerini kaydet
-
-                        // Firebase Authentication işlemini gerçekleştirme
-                        try {
-                          var userResult =
-                              await fireBaseAuth.createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
-
-                          // Başarı durumunda kullanıcıyı Firestore'a kaydetmek için ek işlem yapabilirsiniz
-                          // Örneğin: Firestore'a kullanıcı adını ekleme
-                        } catch (e) {
-                          print(e.toString());
-                        }
+                        signUpController.signInWithEmailAndPassword();
                       },
                       text: LocaleKeys.signUp,
                     ),
                     const Customdivider(),
-                     OtherLoginButtons(),
-                    SizedBox(height: paddingTop * 1.5),
+                    const OtherLoginButtons(),
+                    SizedBox(height: paddingTop/2 ),
                     const IfYouHaveAccound()
                   ],
                 ),

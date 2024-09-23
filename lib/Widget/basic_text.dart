@@ -1,6 +1,4 @@
 
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
@@ -11,7 +9,7 @@ class BasicText extends StatelessWidget {
   final Color? titleColor;
   final FontWeight? fontWeight;
   final double? fontSize;
-   BasicText({super.key,required this.title, this.titleColor, this.fontWeight, this.fontSize});
+   const BasicText({super.key,required this.title, this.titleColor, this.fontWeight, this.fontSize});
  
   @override
   Widget build(BuildContext context) {
@@ -26,6 +24,6 @@ class BasicText extends StatelessWidget {
       ),
     ).tr();
     
-    ;
+    
   }
 }

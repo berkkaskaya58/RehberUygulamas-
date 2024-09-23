@@ -1,6 +1,6 @@
 class UIText{
 static const login="Giriş Yap";
-static const log_in="Oturum Aç";
+static const logIn="Oturum Aç";
 static const hintTextMail="E-mail";
 static const ePosta="E-posta Adresi";
 static const eposta="E-posta";

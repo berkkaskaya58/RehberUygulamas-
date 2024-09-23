@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:telefon_rehberi/model/user_model.dart';
 
@@ -12,11 +13,11 @@ class UserService {
         var jsonBody = jsonDecode(res.body);
         return UsersModel.fromJson(jsonBody);
       } else {
-        print("İstek başarısız oldu => ${res.statusCode}");
+        log("İstek başarısız oldu => ${res.statusCode}");
        
       }
     } catch (e) {
-      print("Bir hata oluştu: $e");
+      log("Bir hata oluştu: $e");
     }
     return null;
   }

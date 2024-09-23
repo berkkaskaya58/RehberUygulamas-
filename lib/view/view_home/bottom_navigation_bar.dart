@@ -7,7 +7,7 @@ import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  CustomBottomNavigationBar({super.key});
+  const CustomBottomNavigationBar({super.key});
 
   @override
   State<CustomBottomNavigationBar> createState() =>
@@ -16,62 +16,60 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _currentIndex = 2;
+  final globalKey = GlobalKey<ScaffoldState>();
 
   // Her sekme için içerik
   final List<Widget> _pages = [
-    quickCalls(), // İlk harfi büyük yapıldı
-    lastWantedPage(),
-     HomePage(),
+    const QuickCalls(), // İlk harfi büyük yapıldı
+    const LastWantedPage(),
+    const HomePage(),
     Container(),
     Container(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    double itemWidth = MediaQuery.of(context).size.width / 5;
 
     return Scaffold(
+      key: globalKey,
       body: _pages[_currentIndex],
       bottomNavigationBar: Stack(
         children: [
-          Container(
-            child: BottomNavigationBar(
-              showSelectedLabels: true,
-              showUnselectedLabels: true,
-              currentIndex: _currentIndex,
-              onTap: (value) {
-                setState(() {
-                  _currentIndex = value; // Seçilen sekmeyi günceller
-                });
-              },
-              selectedItemColor:
-                  UIColors.selectedBottomBarIcon, // Seçili öğe rengi
-              unselectedItemColor: UIColors.unSelectedBottomBarIcon,
-              items: [
-                const BottomNavigationBarItem(
-                  
-                  label: LocaleKeys.quickSearch,
-                  icon: ImageIcon(AssetImage(IconPath.starBottom)),
-                ),
-                const BottomNavigationBarItem(
-                  label: LocaleKeys.lastCalls,
-                  icon: ImageIcon(AssetImage(IconPath.lastCalls)),
-                ),
-                BottomNavigationBarItem(
-                  backgroundColor: UIColors.white,
-                  label: LocaleKeys.peoples,
-                  icon: const ImageIcon(AssetImage(IconPath.peoples)),
-                ),
-                const BottomNavigationBarItem(
-                  label: LocaleKeys.keyboard,
-                  icon: ImageIcon(AssetImage(IconPath.keyboard)),
-                ),
-                const BottomNavigationBarItem(
-                  label: LocaleKeys.voiceMessage,
-                  icon: ImageIcon(AssetImage(IconPath.voiceMessage)),
-                ),
-              ],
-            ),
+          BottomNavigationBar(
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            currentIndex: _currentIndex,
+            onTap: (value) {
+              setState(() {
+                _currentIndex = value; // Seçilen sekmeyi günceller
+              });
+            },
+            selectedItemColor:
+                UIColors.selectedBottomBarIcon, // Seçili öğe rengi
+            unselectedItemColor: UIColors.unSelectedBottomBarIcon,
+            items: [
+              const BottomNavigationBarItem(
+                label: LocaleKeys.quickSearch,
+                icon: ImageIcon(AssetImage(IconPath.starBottom)),
+              ),
+              const BottomNavigationBarItem(
+                label: LocaleKeys.lastCalls,
+                icon: ImageIcon(AssetImage(IconPath.lastCalls)),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: UIColors.white,
+                label: LocaleKeys.peoples,
+                icon: const ImageIcon(AssetImage(IconPath.peoples)),
+              ),
+              const BottomNavigationBarItem(
+                label: LocaleKeys.keyboard,
+                icon: ImageIcon(AssetImage(IconPath.keyboard)),
+              ),
+              const BottomNavigationBarItem(
+                label: LocaleKeys.voiceMessage,
+                icon: ImageIcon(AssetImage(IconPath.voiceMessage)),
+              ),
+            ],
           ),
           // Positioned(
           //   left: itemWidth * _currentIndex,

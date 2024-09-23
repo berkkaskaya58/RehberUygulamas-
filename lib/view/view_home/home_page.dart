@@ -1,45 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/model/user_model.dart';
-import 'package:telefon_rehberi/service/user_service.dart';
+import 'package:get/get.dart';
+import 'package:telefon_rehberi/controller/home_controller.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_image.dart';
 import 'package:telefon_rehberi/view/view_add_people/people_add_page.dart';
-import 'package:telefon_rehberi/view/view_people_detail/people_detail_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-    UserService _service = UserService();
-  List<UsersModelData> users = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchUsers();
-  }
-
-  Future<void> _fetchUsers() async {
-    try {
-      final value = await _service.fetchUsers();
-      if (value != null && value.data != null) {
-        setState(() {
-          users = value.data!;
-        });
-      } else {
-        print("Kullanıcı verileri bulunamadı.");
-      }
-    } catch (error) {
-      print("Hata: $error");
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+   
+      final homeController=Get.put(HomeController());
     return Scaffold(
       backgroundColor: UIColors.white,
       body: SafeArea(
@@ -59,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PeopleAdd(),
+                          builder: (context) => const PeopleAdd(),
                         ),
                       );
                     },
@@ -67,29 +39,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                   
-                    return ListTile(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PeopleDetail(model:users[index],),
-                          ),
-                        );
-                      },
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage('${users[index].avatar}'),
-                      ),
-                      title: Text('${users[index].firstName ?? ""} ${users[index].lastName ?? ""}'),
-                      subtitle: Text("${users[index].email}"),
-                    );
-                  },
-                ),
-              ),
+             homeController.ContactList(),
             ],
           ),
         ),
@@ -97,6 +47,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-

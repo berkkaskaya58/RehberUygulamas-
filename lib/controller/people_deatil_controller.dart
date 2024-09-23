@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,9 +13,6 @@ class PeopledeatilController extends GetxController {
   File? imagePath;
 final RxList<XFile> images = <XFile>[].obs; // Resimler için bir liste ekleyin
 
-  void _addPhoneNumberField() {
-    phoneNumberControllers.add(TextEditingController());
-  }
 
    Future<void> selectImage() async {
     final picker = ImagePicker();
@@ -33,7 +31,7 @@ final RxList<XFile> images = <XFile>[].obs; // Resimler için bir liste ekleyin
     if (await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
     } else {
-      print("Could not launch $launchUri");
+      log("Could not launch $launchUri");
       Get.snackbar("Hata", "Sms uygulaması açılamadı.");
     }
   }
@@ -47,9 +45,9 @@ final RxList<XFile> images = <XFile>[].obs; // Resimler için bir liste ekleyin
     await launchUrl(launchUri);
   } else {
     // Hata durumunda mesaj göster
-    print("Could not launch $launchUri");
+    log("Could not launch $launchUri");
     // Kullanıcıya bir hata mesajı gösterebilirsiniz
-    Get.snackbar("Hata", "E-Mail uygulaması açılamadı.");
+    log("E-Mail uygulaması açılamadı.");
   }
 }
 
@@ -64,7 +62,7 @@ final RxList<XFile> images = <XFile>[].obs; // Resimler için bir liste ekleyin
       await launchUrl(launchUri);
     } else {
       // Hata durumunda mesaj göster
-      print("Could not launch $launchUri");
+      log("Could not launch $launchUri");
       // Kullanıcıya bir hata mesajı gösterebilirsiniz
       Get.snackbar("Hata", "Telefon uygulaması açılamadı.");
     }

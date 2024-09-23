@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:telefon_rehberi/controller/login_controller.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
-import 'package:telefon_rehberi/widget/widget_checkBox.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
+import 'package:telefon_rehberi/widget/widget_check_box.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 
 class RemembermeForgetpassword extends StatelessWidget {
@@ -23,22 +24,15 @@ class RemembermeForgetpassword extends StatelessWidget {
         if (email.isNotEmpty) {
           await fireBaseAuth.sendPasswordResetEmail(email: email);
           // Başarılı olduğunda kullanıcıya bildirim verilebilir
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Şifre sıfırlama e-postası gönderildi.')),
-          );
+         Get.snackbar('', 'Şifre sıfırlama e-postası gönderildi.');
         } else {
           // E-posta boşsa kullanıcıya uyarı göster
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Lütfen geçerli bir e-posta adresi girin.')),
-            
-          );
-          print(email.trim);
+         Get.snackbar("",'Lütfen geçerli bir e-posta adresi girin.');
+         // print(email.trim);
         }
       } catch (e) {
         // Hata durumunda kullanıcıya mesaj gösterebilirsiniz
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Şifre sıfırlama işlemi başarısız oldu.')),
-        );
+          Get.snackbar("",'Şifre Sıfırlama Işlemi Başarısız Oldu ');
       }
     }
 
@@ -49,11 +43,11 @@ class RemembermeForgetpassword extends StatelessWidget {
       children: [
         Row(
           children: [
-            CustomCheckBox(),
+            const CustomCheckBox(),
             SizedBox(
               width: paddingHorizontal / 3,
             ),
-            BasicText(
+            const BasicText(
               title: LocaleKeys.rememberMe,
             ),
           ],
@@ -63,7 +57,7 @@ class RemembermeForgetpassword extends StatelessWidget {
             // Şifre sıfırlama fonksiyonunu tetikliyoruz
            resetPassword();
           },
-          child: BasicText(
+          child: const BasicText(
             title: LocaleKeys.forgetPassword,
             fontSize: 12,
           ),

@@ -1,26 +1,31 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/edit_people_controller.dart';
 import 'package:telefon_rehberi/ui/ui_text.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/view/view_home/bottom_navigation_bar.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/widget/widget_basic_text_field.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 
+// ignore: must_be_immutable
 class EditPerson extends StatelessWidget {
-  EditPerson({super.key});
+  List<DocumentSnapshot<Object?>> list;
+  int index;
+  EditPerson({super.key, required this.list, required this.index});
 
   // Controller'ı burada tanımlayın
-  final editPeopleCntroller = Get.put(EditPeopleController());
-
-  File? _imagePath;
+  final editPeopleController = Get.put(EditPeopleController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
+    //var data = list[index].data() as Map<String, dynamic>;
+
     double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
     double paddingTop = MediaQuery.of(context).size.height * 0.05;
     double paddingBottom = MediaQuery.of(context).size.height * 0.05;
@@ -52,7 +57,7 @@ class EditPerson extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    Align(
+                    const Align(
                       child: BasicText(
                         title: LocaleKeys.editPerson,
                         fontWeight: FontWeight.w500,
@@ -70,14 +75,14 @@ class EditPerson extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: editPeopleCntroller.selectImage,
+                      onTap: editPeopleController.selectImage,
                       child: Obx(() {
-                        return editPeopleCntroller.images.isEmpty
+                        return editPeopleController.images.isEmpty
                             ? Image.asset(IconPath.addPhoto)
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
                                 child: Image.file(
-                                  File(editPeopleCntroller.images.first.path),
+                                  File(editPeopleController.images.first.path),
                                   width: 72,
                                   height: 72,
                                   fit: BoxFit.cover,
@@ -89,43 +94,39 @@ class EditPerson extends StatelessWidget {
                 ),
                 SizedBox(height: paddingTop / 2),
                 CustomTextField(
-                    showIcon: false,
-                    controller: editPeopleCntroller.nameController,
-                    hintText: LocaleKeys.hintTextNameSurname,
-                    obscureText: false,
-                    focusNode: editPeopleCntroller.nameFocusNode,
-                    nextFocusNode: editPeopleCntroller.numberFocusNode),
-                ...editPeopleCntroller.phoneNumberControllers
-                    .asMap()
-                    .entries
-                    .map((entry) {
-                  int index = entry.key;
-                  return Padding(
-                    padding: EdgeInsets.only(top: paddingTop / 3),
-                    child: CustomTextField(
-                      showIcon: false,
-                      controller: entry.value,
-                      hintText: LocaleKeys.phoneNumber,
-                      obscureText: false,
-                      focusNode:
-                         editPeopleCntroller.numberFocusNode,
-                         nextFocusNode: editPeopleCntroller.eMailFocusNode,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(
-                            11), // Maksimum 11 rakam
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Sadece rakam girişi
-                      ],
-                    ),
-                  );
-                }).toList(),
+                  showIcon: false,
+                  controller: editPeopleController.nameController,
+                  hintText: LocaleKeys.hintTextNameSurname,
+                  obscureText: false,
+                  focusNode: editPeopleController.nameFocusNode,
+                  nextFocusNode: editPeopleController.numberFocusNode,
+                  onChanged: (value) {
+                    editPeopleController.nameController.text = value;
+                  },
+                ),
+                CustomTextField(
+                  showIcon: false,
+                  controller: editPeopleController.numberController,
+                  hintText: LocaleKeys.phoneNumber,
+                  obscureText: false,
+                  focusNode: editPeopleController.numberFocusNode,
+                  nextFocusNode: editPeopleController.eMailFocusNode,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(11), // Maksimum 11 rakam
+                    FilteringTextInputFormatter
+                        .digitsOnly, // Sadece rakam girişi
+                  ],
+                  onChanged: (value) {
+                    editPeopleController.numberController.text = value;
+                  },
+                ),
                 SizedBox(height: paddingTop / 5),
                 GestureDetector(
-                  onTap: editPeopleCntroller.addPhoneNumber,
-                  child: Row(
+                  onTap: editPeopleController.addPhoneNumber,
+                  child: const Row(
                     children: [
-                      const ImageIcon(AssetImage(IconPath.add)),
-                      const SizedBox(width: 8),
+                      ImageIcon(AssetImage(IconPath.add)),
+                      SizedBox(width: 8),
                       BasicText(
                           title: LocaleKeys.addOneMoreNumber, fontSize: 14),
                     ],
@@ -133,25 +134,22 @@ class EditPerson extends StatelessWidget {
                 ),
                 SizedBox(height: paddingTop / 5),
                 CustomTextField(
-                  focusNode: editPeopleCntroller.eMailFocusNode,
-                  showIcon: false,
-                  controller: editPeopleCntroller.emailController,
-                  onChanged: (p0) {
-                    editPeopleCntroller
-                        .isEmail(editPeopleCntroller.emailController.text);
-                    editPeopleCntroller.emailBorderColor =
-                        editPeopleCntroller.getEmailBorderColor(
-                            editPeopleCntroller.emailController.text);
-                  }, // Fonksiyonu onChanged'de kullan
-                  borderSideColors:
-                      editPeopleCntroller.emailBorderColor.value,
-                  hintText: LocaleKeys.hintTextMail,
-                  obscureText: false,
-                  backgroundColor: editPeopleCntroller.isValidEmail.value
-                      ? UIColors.noErrorColor
-                      : UIColors.errorColor,
-                ),
-                editPeopleCntroller.isValidEmail.value
+                    focusNode: editPeopleController.eMailFocusNode,
+                    showIcon: false,
+                    controller: editPeopleController.emailController,
+                    onChanged: (value) {
+                      editPeopleController.isEmail(value);
+                      editPeopleController.emailBorderColor =
+                          editPeopleController.getEmailBorderColor(value);
+                    },
+                    borderSideColors: editPeopleController.getEmailBorderColor(
+                        editPeopleController.emailController.text),
+                    hintText: LocaleKeys.hintTextMail,
+                    obscureText: false,
+                    backgroundColor:
+                        editPeopleController.getEmailBackgroundColor(
+                            editPeopleController.emailController.text)),
+                editPeopleController.isValidEmail.value
                     ? Container()
                     : Align(
                         alignment: Alignment.centerLeft,
@@ -159,14 +157,32 @@ class EditPerson extends StatelessWidget {
                           titleColor: UIColors.errorMessageColor,
                           title: UIText.errorMessageEmail,
                           fontSize: 12,
-                        )),
+                        ),
+                      ),
                 const Spacer(),
                 ButtonBasic(
                   text: LocaleKeys.save,
-                  func: () {
-                    // Kaydetme işlevini buraya ekleyebilirsiniz
+                  func: () async {
+                    try {
+                      await FirebaseFirestore.instance
+                          .collection('FirebaseCollection')
+                          .doc(list[index].id)
+                          .update({
+                        'name': editPeopleController.nameController.text,
+                        'number': editPeopleController.numberController.text,
+                        'email': editPeopleController.emailController.text,
+                      });
+                      Get.off(() => const CustomBottomNavigationBar());
+
+                      Get.snackbar('', 'Kayıt başarılı ',
+                          duration: const Duration(seconds: 1));
+                    } catch (e) {
+                      Get.snackbar('{$e}', 'Kayıt başarısız. Lütfen tekrar deneyin',
+                          duration: const Duration(seconds: 1));
+                    }
                   },
                 ),
+                SizedBox(height: paddingTop / 5),
               ],
             ),
           ),

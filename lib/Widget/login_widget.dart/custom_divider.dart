@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 
 class Customdivider extends StatelessWidget {
@@ -21,7 +21,7 @@ class Customdivider extends StatelessWidget {
           SizedBox(
             width: paddingHorizontal / 2,
           ),
-          BasicText(title: LocaleKeys.or),
+          const BasicText(title: LocaleKeys.or),
           SizedBox(
             width: paddingHorizontal / 2,
           ),

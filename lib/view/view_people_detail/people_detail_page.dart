@@ -1,11 +1,12 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telefon_rehberi/controller/add_people_controller.dart';
 import 'package:telefon_rehberi/ui/ui_image.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_container.dart';
-import 'package:telefon_rehberi/controller/peopleDeatil_controller.dart';
+import 'package:telefon_rehberi/controller/people_deatil_controller.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/model/user_model.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
@@ -13,16 +14,28 @@ import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/view/view_edit_people/people_edit_page.dart';
 
 class PeopleDetail extends StatelessWidget {
-  UsersModelData? model;
-  PeopleDetail({super.key, this.model});
+  final List<DocumentSnapshot<Object?>> list;
+  final UsersModelData? model;
+  final int index;
+
+  PeopleDetail({
+    super.key,
+    this.model,
+    required this.list,
+    required this.index,
+  });
 
   final peopleDetailController = Get.put(PeopledeatilController());
+  final addPeopleController = Get.put(AddPeopleController());
 
   @override
   Widget build(BuildContext context) {
+    var data = list[index].data() as Map<String, dynamic>;
+
     double paddingTop = MediaQuery.of(context).size.height * 0.015;
     double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
     double paddingBottom = MediaQuery.of(context).size.width * 0.05;
+
     return Scaffold(
       backgroundColor: UIColors.white,
       body: SafeArea(
@@ -53,51 +66,41 @@ class PeopleDetail extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(right: paddingHorizontal),
-                          child: BasicText(
-                            title: LocaleKeys.personDetail,
-                            fontWeight: FontWeight.w500,
-                          )),
+                        padding: EdgeInsets.only(right: paddingHorizontal),
+                        child: const BasicText(
+                          title: LocaleKeys.personDetail,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                       const ImageIcon(
                         color: Colors.transparent,
                         AssetImage(IconPath.addPhoto),
                       ),
                     ],
                   ),
-                  //  ClipOval(
-
-                  //   child: Image.network(model?.avatar ?? '')),
-
-                  //   SizedBox(
-                  //     height: paddingTop,
-                  //   ),
+                  // Kullanıcının profil resmini göster
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                          onTap: peopleDetailController.selectImage,
-                          child: model?.avatar == null
-                              ? SizedBox(
-                                  width: 300,
-                                  height: 50,
-                                  child: Image.asset(ImagePath.notFound404))
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.network(
-                                      model?.avatar ?? IconPath.addPhoto),
-                                )),
+                        onTap: peopleDetailController.selectImage,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.network(
+                            data['profileImageUrl'] ?? ImagePath.notFound404, // Profil resmi URL'si
+                            width: 72,
+                            height: 72,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  Text(
-                    '${model?.firstName} ' '${model?.lastName}',
-                  ),
-                  SizedBox(
-                    height: paddingTop / 30,
-                  ),
-                  Text(model?.email ?? ''),
-                  SizedBox(
-                    height: paddingTop,
-                  ),
+                  SizedBox(height: paddingTop),
+                  Text(data['name'] ?? 'No Name', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  SizedBox(height: paddingTop / 30),
+                  Text(data['number'] ?? 'No Number', style: const TextStyle(fontSize: 16)),
+                  SizedBox(height: paddingTop),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -105,83 +108,77 @@ class PeopleDetail extends StatelessWidget {
                         onTap: () async {
                           peopleDetailController.message();
                         },
-                        child: SquareContainer(
+                        child: const SquareContainer(
                           text: LocaleKeys.message,
                           imagePath: IconPath.message,
                         ),
                       ),
-                      SizedBox(
-                        width: paddingHorizontal / 2,
-                      ),
+                      SizedBox(width: paddingHorizontal / 2),
                       GestureDetector(
                         onTap: () {
                           peopleDetailController.makePhoneCall();
                         },
-                        child: SquareContainer(
+                        child: const SquareContainer(
                           imagePath: IconPath.phone,
                           text: LocaleKeys.phone,
                         ),
                       ),
-                      SizedBox(
-                        width: paddingHorizontal / 2,
-                      ),
-                      SquareContainer(
+                      SizedBox(width: paddingHorizontal / 2),
+                      const SquareContainer(
                         imagePath: IconPath.video,
                         text: LocaleKeys.withVideo,
                       ),
-                      SizedBox(
-                        width: paddingHorizontal / 2,
-                      ),
+                      SizedBox(width: paddingHorizontal / 2),
                       GestureDetector(
                         onTap: () {
                           peopleDetailController.eMail();
                         },
-                        child: SquareContainer(
+                        child: const SquareContainer(
                           imagePath: IconPath.ePosta,
                           text: LocaleKeys.hintTextMail,
                         ),
                       )
                     ],
                   ),
-                  SizedBox(
-                    height: paddingTop * 1.5,
-                  ),
+                  SizedBox(height: paddingTop * 1.5),
                   GestureDetector(
                     child: ButtonBasic(
-                       
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        prefixPath: IconPath.pen2,
-                        color: UIColors.white,
-                        titleColor: UIColors.black,
-                        text: LocaleKeys.editPerson,
-                        fontSize: 14,
-                        func: () {
-                          Get.to(EditPerson());
-                        }),
-                  ),
-                  SizedBox(
-                    height: paddingTop,
-                  ),
-                  ButtonBasic(
-                   
                       mainAxisAlignment: MainAxisAlignment.start,
-                      prefixPath: IconPath.share,
+                      prefixPath: IconPath.pen2,
                       color: UIColors.white,
                       titleColor: UIColors.black,
-                      text: LocaleKeys.sharePerson,
+                      text: LocaleKeys.editPerson,
                       fontSize: 14,
-                      func: () {}),
-                  SizedBox(
-                    height: paddingTop,
+                      func: () {
+                        Get.to(
+                          () => EditPerson(
+                            index: index,
+                            list: list,
+                          ),
+                        );
+                      },
+                    ),
                   ),
+                  SizedBox(height: paddingTop),
                   ButtonBasic(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      prefixPath: IconPath.star,
-                      color: UIColors.white,
-                      titleColor: UIColors.black,
-                      text: LocaleKeys.addQuickSearch,
-                      fontSize: 14,
-                      func: () {}),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    prefixPath: IconPath.share,
+                    color: UIColors.white,
+                    titleColor: UIColors.black,
+                    text: LocaleKeys.sharePerson,
+                    fontSize: 14,
+                    func: () {},
+                  ),
+                  SizedBox(height: paddingTop),
+                  ButtonBasic(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    prefixPath: IconPath.star,
+                    color: UIColors.white,
+                    titleColor: UIColors.black,
+                    text: LocaleKeys.addQuickSearch,
+                    fontSize: 14,
+                    func: () {},
+                  ),
                 ],
               ),
             ),

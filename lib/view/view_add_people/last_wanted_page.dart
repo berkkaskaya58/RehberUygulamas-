@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 
-class lastWantedPage extends StatelessWidget {
-  const lastWantedPage({super.key});
+class LastWantedPage extends StatelessWidget {
+  const LastWantedPage({super.key});
 
   @override
   Widget build(BuildContext context) {

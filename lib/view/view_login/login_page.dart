@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/ui/ui_text.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_basic_text_field.dart';
 import 'package:telefon_rehberi/controller/login_controller.dart';
@@ -15,21 +14,18 @@ import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dar
 import 'package:telefon_rehberi/widget/login_widget.dart/remember_me_forget_password.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final loginController = Get.put(LoginController()); // Controller'ı GetX ile bağla
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loginController =
+        Get.put(LoginController()); // Controller'ı GetX ile bağla
     double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
     double paddingTop = MediaQuery.of(context).size.height * 0.05;
-    String email = '';
-    String password = '';
-    final formKey = GlobalKey<FormState>();
-    final fireBaseAuth = FirebaseAuth.instance;
 
     return Obx(
       () => Scaffold(
+        key: loginController.globalKey,
         backgroundColor: UIColors.white,
         body: SafeArea(
           child: Padding(
@@ -43,7 +39,7 @@ class LoginPage extends StatelessWidget {
                   ? const ScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
               child: Form(
-                key: formKey,
+                key: loginController.loginFormKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -58,7 +54,7 @@ class LoginPage extends StatelessWidget {
                     // Form alanları
                     Column(
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             BasicText(
                               title: LocaleKeys.login,
@@ -70,21 +66,24 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: paddingTop / 2),
                         CustomTextField(
                           onSaved: (value) {
-                            email = value ?? '';
+                            loginController.email = value;
                           },
                           focusNode: loginController.emailFocusNode,
                           nextFocusNode: loginController.passwordFocusNode,
                           showIcon: false,
                           controller: loginController.emailController,
                           onChanged: (p0) {
-                            loginController.isEmail(loginController.emailController.text);
+                            loginController
+                                .isEmail(loginController.emailController.text);
                             loginController.emailBorderColor =
-                                loginController.getEmailBorderColor(loginController.emailController.text);
+                                loginController.getEmailBorderColor(
+                                    loginController.emailController.text);
                           },
-                          borderSideColors: loginController.emailBorderColor.value,
-                          backgroundColor: loginController.isValidEmail.value
-                              ? UIColors.noErrorColor
-                              : UIColors.errorColor,
+                          borderSideColors: loginController.getEmailBorderColor(
+                              loginController.emailController.text),
+                          backgroundColor:
+                              loginController.getEmailBackgroundColor(
+                                  loginController.emailController.text),
                           hintText: LocaleKeys.hintTextMail,
                           obscureText: false,
                         ),
@@ -101,20 +100,24 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: paddingTop / 5),
                         CustomTextField(
                           onSaved: (value) {
-                            password = value ?? '';
+                            loginController.password = value ;
                           },
                           focusNode: loginController.passwordFocusNode,
                           showIcon: true,
                           controller: loginController.passwordController,
                           onChanged: (p0) {
-                            loginController.isPassword(loginController.passwordController.text);
+                            loginController.isPassword(
+                                loginController.passwordController.text);
                             loginController.passwordBorderColor =
-                                loginController.getpasswordBorderColor(loginController.passwordController.text);
+                                loginController.getpasswordBorderColor(
+                                    loginController.passwordController.text);
                           },
-                          borderSideColors: loginController.passwordBorderColor.value,
-                          backgroundColor: loginController.isCorrectPassword.value
-                              ? UIColors.errorColor
-                              : UIColors.noErrorColor,
+                          borderSideColors:
+                              loginController.getpasswordBorderColor(
+                                  loginController.passwordController.text),
+                          backgroundColor:
+                              loginController.getPasswordBackgroundColor(
+                                  loginController.passwordController.text),
                           hintText: LocaleKeys.hintTextPassword,
                           obscureText: true,
                         ),
@@ -138,24 +141,12 @@ class LoginPage extends StatelessWidget {
                               : ButtonBasic(
                                   text: LocaleKeys.login,
                                   func: () async {
-                                    if (formKey.currentState!.validate()) {
-                                      formKey.currentState!.save(); // Form verilerini kaydet
-                                      try {
-                                        var userResult = await fireBaseAuth.signInWithEmailAndPassword(
-                                          email: email,
-                                          password: password,
-                                        );
-                                        loginController.login();
-                                      } catch (e) {
-                                        Get.snackbar("Hata", "Kayıtlı Kullanıcı Bulunamadı!! ");
-                                        print(e.toString());
-                                      }
-                                    }
-                                  },
-                                );
+                                    loginController
+                                        .signInWithEmailAndPassword();
+                                  });
                         }),
                         const Customdivider(),
-                        OtherLoginButtons(),
+                        const OtherLoginButtons(),
                       ],
                     ),
                     SizedBox(

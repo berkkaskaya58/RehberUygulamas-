@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 
 class CustomCheckBox extends StatefulWidget {
-  CustomCheckBox({super.key});
+  const CustomCheckBox({super.key});
 
   @override
-  State<CustomCheckBox> createState() => _CustomCheckBoxState();
+  State<CustomCheckBox> createState() => CustomCheckBoxState();
 }
 
-class _CustomCheckBoxState extends State<CustomCheckBox> {
+class CustomCheckBoxState extends State<CustomCheckBox> {
   bool _isChecked = true;
 
   @override

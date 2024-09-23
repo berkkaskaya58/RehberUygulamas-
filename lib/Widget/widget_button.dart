@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 
+// ignore: must_be_immutable
 class ButtonBasic extends StatelessWidget {
   String text = "";
   Color? color;

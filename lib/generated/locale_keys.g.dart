@@ -2,7 +2,7 @@
 
 abstract class  LocaleKeys {
   static const login = 'Login';
-  static const log_in = 'Log_in';
+  static const logIn = 'Log_in';
   static const hintTextMail = 'E-Mail';
   static const ePosta = 'E-Mail Adress';
   static const hintTextPassword = 'Password';
@@ -37,5 +37,6 @@ abstract class  LocaleKeys {
   static const keyboard = 'keyboard';
   static const voiceMessage = 'voiceMessage';
   static const errorMessage = 'errorMessage';
+  
 
 }

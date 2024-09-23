@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/widget/basicText.dart';
+import 'package:telefon_rehberi/widget/basic_text.dart';
 
 class SquareContainer extends StatelessWidget {
   final String text;
   final String imagePath;
 
-  SquareContainer({super.key, required this.text, required this.imagePath});
+  const SquareContainer({super.key, required this.text, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
