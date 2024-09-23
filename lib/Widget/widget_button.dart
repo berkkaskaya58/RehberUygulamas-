@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
@@ -59,7 +60,7 @@ class ButtonBasic extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: BasicText(
-                      title: text,
+                      title: text.tr(),
                       titleColor: titleColor ?? UIColors.white,
                       fontSize: fontSize ?? 18,
                       fontWeight: fontWeight?? FontWeight.w400,

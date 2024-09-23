@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/edit_people_controller.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
 import 'package:telefon_rehberi/view/view_home/bottom_navigation_bar.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
@@ -104,6 +103,7 @@ class EditPerson extends StatelessWidget {
                     editPeopleController.nameController.text = value;
                   },
                 ),
+                SizedBox(height: paddingTop / 5),
                 CustomTextField(
                   showIcon: false,
                   controller: editPeopleController.numberController,
@@ -155,13 +155,13 @@ class EditPerson extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: BasicText(
                           titleColor: UIColors.errorMessageColor,
-                          title: UIText.errorMessageEmail,
+                          title: LocaleKeys.errorMessageEmail,
                           fontSize: 12,
                         ),
                       ),
                 const Spacer(),
                 ButtonBasic(
-                  text: LocaleKeys.save,
+                  text: LocaleKeys.save.tr,
                   func: () async {
                     try {
                       await FirebaseFirestore.instance

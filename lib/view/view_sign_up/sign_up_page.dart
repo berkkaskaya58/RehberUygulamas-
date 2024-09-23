@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/sign_up_controller.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
@@ -101,7 +100,7 @@ class SignPage extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: BasicText(
                               titleColor: UIColors.errorMessageColor,
-                              title: UIText.errorMessageEmail,
+                              title: LocaleKeys.errorMessageEmail,
                               fontSize: 12,
                             )),
                     SizedBox(height: paddingTop / 4),
@@ -130,7 +129,7 @@ class SignPage extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: BasicText(
                               titleColor: UIColors.errorMessageColor,
-                              title: UIText.errorMessagePassword,
+                              title: LocaleKeys.errorMessagePassword,
                               fontSize: 12,
                             ),
                           )
@@ -148,7 +147,7 @@ class SignPage extends StatelessWidget {
                       },
                       borderSideColors:
                           signUpController.getPassword2BorderColor(),
-                      hintText: UIText.hintTextThePasswordAgain,
+                      hintText: LocaleKeys.hintTextThePasswordAgain,
                       obscureText: true,
                       backgroundColor:
                         signUpController.getPassword2BackgroundColor(signUpController.passwordController2.text,signUpController.passwordController.text),
@@ -159,7 +158,7 @@ class SignPage extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: BasicText(
                               titleColor: UIColors.errorMessageColor,
-                              title: UIText.notSamePassword,
+                              title: LocaleKeys.notSamePassword,
                               fontSize: 12,
                             ),
                           ),

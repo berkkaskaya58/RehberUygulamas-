@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_basic_text_field.dart';
@@ -93,7 +92,7 @@ class LoginPage extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: BasicText(
                                   titleColor: UIColors.errorMessageColor,
-                                  title: UIText.errorMessageEmail,
+                                  title: LocaleKeys.errorMessageEmail,
                                   fontSize: 12,
                                 ),
                               ),
@@ -126,7 +125,7 @@ class LoginPage extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: BasicText(
                                   titleColor: UIColors.errorMessageColor,
-                                  title: UIText.errorMessagePassword,
+                                  title: LocaleKeys.errorMessagePassword,
                                   fontSize: 12,
                                 ),
                               )

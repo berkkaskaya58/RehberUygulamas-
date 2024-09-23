@@ -31,11 +31,14 @@
     "save":"Save",
     "addOneMoreNumber":"Add one More Number",
     "quickSearch":"Quick Call",
-    "lastCalls":"Last  Calls",
+    "lastCalls":"Last Calls",
     "peoples":"Peoples",
     "keyboard":"Keyboard",
     "voiceMessage":"Voice Message",
-    "errorMessage":"You Made The Wrong Entry"
+    "errorMessage": "Invalid Login",
+    "errorMessagePassword": "Your password cannot exceed 8 characters",
+    "notSamePassword": "Passwords Do Not Match",
+    "errorMessageEmail": "Invalid Email Address"
        
        
        }

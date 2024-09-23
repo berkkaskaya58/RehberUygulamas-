@@ -35,7 +35,10 @@
  "peoples":"Kişiler",
  "keyboard":"Klavye",
  "voiceMessage":"Sesli Mesaj",
- "errorMessage":"Hatalı Giriş Yaptınız"
+ "errorMessage":"Hatalı Giriş Yaptınız",
+ "errorMessagePassword":"Şifreniz 8 karakterden fazla olamaz ",
+"notSamePassword":"Şifreler Uyuşmuyor",
+" errorMessageEmail":"Hatalı Email Girdiniz"
     
     
     }

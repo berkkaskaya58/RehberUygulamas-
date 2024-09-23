@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/add_people_controller.dart';
-import 'package:telefon_rehberi/ui/ui_text.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
@@ -152,7 +151,7 @@ class _PeopleAddState extends State<PeopleAdd> {
                                 alignment: Alignment.centerLeft,
                                 child: BasicText(
                                   titleColor: UIColors.errorMessageColor,
-                                  title: UIText.errorMessageEmail,
+                                  title: LocaleKeys.errorMessageEmail,
                                   fontSize: 12,
                                 ),
                               ),

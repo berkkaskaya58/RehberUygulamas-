@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
@@ -83,7 +84,7 @@ class CustomTextFieldState extends State<CustomTextField> {
               contentPadding: const EdgeInsets.all(14.0),
               fillColor: widget.backgroundColor ?? UIColors.textFieldBackGround,
               filled: true,
-              hintText: widget.hintText,
+              hintText: widget.hintText.tr(),
               hintStyle: TextStyle(color: UIColors.hintText),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
