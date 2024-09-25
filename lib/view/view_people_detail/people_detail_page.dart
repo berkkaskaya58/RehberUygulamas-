@@ -8,28 +8,29 @@ import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_container.dart';
 import 'package:telefon_rehberi/controller/people_deatil_controller.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
-import 'package:telefon_rehberi/model/user_model.dart';
+// import 'package:telefon_rehberi/model/user_model.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/view/view_edit_people/people_edit_page.dart';
 
 class PeopleDetail extends StatelessWidget {
   final List<DocumentSnapshot<Object?>> list;
-  final UsersModelData? model;
+  // final UsersModelData? model;
   final int index;
+  final addPeopleController = Get.put(AddPeopleController());
 
   PeopleDetail({
     super.key,
-    this.model,
+    // this.model,
     required this.list,
     required this.index,
   });
 
-  final peopleDetailController = Get.put(PeopledeatilController());
-  final addPeopleController = Get.put(AddPeopleController());
 
   @override
   Widget build(BuildContext context) {
+  final peopleDetailController = Get.put(PeopledeatilController(list: list,index: index));
+
     var data = list[index].data() as Map<String, dynamic>;
 
     double paddingTop = MediaQuery.of(context).size.height * 0.015;
