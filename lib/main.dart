@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           context.localizationDelegates, // Yerelleştirme delegeleri
       supportedLocales: context.supportedLocales, // Desteklenen diller
       locale: context.locale, // Şu anki dil
-      home: const CustomBottomNavigationBar(),
+      home: const LoginPage(),
     );
   }
 }
