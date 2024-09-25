@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 
 class EditPeopleController extends GetxController {
-
+   late List<DocumentSnapshot<Object?>> list;
+  late int index;
+EditPeopleController({required this.list,required this.index});
   
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -22,9 +25,48 @@ class EditPeopleController extends GetxController {
   Color emailErrorColor = UIColors.errorColor;
 
  
-
  
+  // @override
+  // void onInit() {
+  //   super.onInit();                                               // initialize e bak Çalış !!!!!!!!!!!!!!!!!!!!!
+  //   init();
+  // }
 
+  // Future<void> init() async {
+  //   var data = list[index].data() as Map<String, dynamic>;
+
+  //    nameController.text = data['name'];
+  //   numberController.text = data['number'];
+  //   emailController.text = data['email'];
+  // }
+ 
+ // EditPerson widget'ında
+  @override
+  void onInit() {
+    super.onInit();
+    final data = list[index].data() as Map<String, dynamic>;
+    setInitialValues(data );
+    // Burada veri alımını yapabilirsiniz
+  }
+
+  @override
+  void onClose() {
+    // Kaynakları serbest bırak
+    nameController.dispose();
+    numberController.dispose();
+    emailController.dispose();
+    super.onClose();
+  }
+
+  void setInitialValues(Map<String, dynamic> data) {
+    if (nameController.text.isEmpty &&
+        numberController.text.isEmpty &&
+        emailController.text.isEmpty) {
+      nameController.text = data['name'] ?? ''; // Null kontrol
+      numberController.text = data['number'] ?? ''; // Null kontrol
+      emailController.text = data['email'] ?? ''; // Null kontrol
+    }
+}
 
   // Şifre ve e-posta doğrulaması
   RxBool isValidEmail = true.obs;
@@ -56,16 +98,16 @@ class EditPeopleController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    // Dispose işlemlerini burada yapın
-    nameController.dispose();
-    emailController.dispose();
-    for (var controller in phoneNumberControllers) {
-      controller.dispose();
-    }
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   // Dispose işlemlerini burada yapın
+  //   nameController.dispose();
+  //   emailController.dispose();
+  //   for (var controller in phoneNumberControllers) {
+  //     controller.dispose();
+  //   }
+  //   super.onClose();
+  // }
  void isEmail(String email) {
     if (email.isEmpty) {
       isValidEmail.value = true;

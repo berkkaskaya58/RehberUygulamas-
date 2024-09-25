@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart'; // Easy Localization 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:telefon_rehberi/firebase_options.dart';
 import 'package:telefon_rehberi/storage/app_storage.dart';
+import 'package:telefon_rehberi/view/view_home/bottom_navigation_bar.dart';
 import 'package:telefon_rehberi/view/view_login/login_page.dart';
 
 void main() async {
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
           context.localizationDelegates, // Yerelleştirme delegeleri
       supportedLocales: context.supportedLocales, // Desteklenen diller
       locale: context.locale, // Şu anki dil
-      home: const LoginPage(),
+      home: const CustomBottomNavigationBar(),
     );
   }
 }
