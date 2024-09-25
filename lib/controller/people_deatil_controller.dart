@@ -22,6 +22,7 @@ class PeopledeatilController extends GetxController {
     required this.index,
   });
 
+  @override
   void onInit() {
     super.onInit();
      data =

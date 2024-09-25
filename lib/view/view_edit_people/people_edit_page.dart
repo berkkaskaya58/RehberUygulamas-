@@ -18,11 +18,11 @@ class EditPerson extends StatelessWidget {
   int index;
   EditPerson({super.key, required this.list, required this.index});
 
- 
-
   @override
   Widget build(BuildContext context) {
-final editPeopleController = Get.put(EditPeopleController(index: index, list: list),);
+    final editPeopleController = Get.put(
+      EditPeopleController(index: index, list: list),
+    );
 
     // var data = list[index].data() as Map<String, dynamic>;
 
@@ -168,7 +168,7 @@ final editPeopleController = Get.put(EditPeopleController(index: index, list: li
                 ButtonBasic(
                   text: LocaleKeys.save.tr,
                   func: () async {
-                    try {
+                    if (editPeopleController.isValidEmail.value == true) {
                       await FirebaseFirestore.instance
                           .collection('FirebaseCollection')
                           .doc(list[index].id)
@@ -177,13 +177,12 @@ final editPeopleController = Get.put(EditPeopleController(index: index, list: li
                         'number': editPeopleController.numberController.text,
                         'email': editPeopleController.emailController.text,
                       });
-                      Get.to(() => const CustomBottomNavigationBar());
 
+                      Get.off(() => const CustomBottomNavigationBar());
                       Get.snackbar('', 'Kayıt başarılı ',
                           duration: const Duration(seconds: 1));
-                    } catch (e) {
-                      Get.snackbar(
-                          '{$e}', 'Kayıt başarısız. Lütfen tekrar deneyin',
+                    } else {
+                      Get.snackbar('', 'Kayıt başarısız. Lütfen tekrar deneyin',
                           duration: const Duration(seconds: 1));
                     }
                   },
