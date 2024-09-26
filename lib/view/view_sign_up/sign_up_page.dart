@@ -165,7 +165,7 @@ class SignPage extends StatelessWidget {
                     SizedBox(height: paddingTop * 1.5),
                     ButtonBasic(
                       func: () async {
-                        signUpController.signInWithEmailAndPassword();
+                        signUpController.signUpWithEmailAndPassword();
                       },
                       text: LocaleKeys.signUp,
                     ),
