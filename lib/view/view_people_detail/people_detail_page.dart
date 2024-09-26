@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/add_people_controller.dart';
-import 'package:telefon_rehberi/ui/ui_image.dart';
+import 'package:telefon_rehberi/ui/ui_images.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_container.dart';

@@ -8,7 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
-import 'package:telefon_rehberi/ui/ui_image.dart';
+import 'package:telefon_rehberi/ui/ui_images.dart';
 
 class OtherLoginButtons extends StatelessWidget {
   const OtherLoginButtons({super.key});

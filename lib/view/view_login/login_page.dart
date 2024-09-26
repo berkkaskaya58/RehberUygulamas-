@@ -6,7 +6,7 @@ import 'package:telefon_rehberi/widget/widget_basic_text_field.dart';
 import 'package:telefon_rehberi/controller/login_controller.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
-import 'package:telefon_rehberi/ui/ui_image.dart';
+import 'package:telefon_rehberi/ui/ui_images.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/custom_divider.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/if_you_dont_have_accound.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telefon_rehberi/controller/home_controller.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
-import 'package:telefon_rehberi/ui/ui_image.dart';
+import 'package:telefon_rehberi/ui/ui_images.dart';
 import 'package:telefon_rehberi/view/view_add_people/people_add_page.dart';
 
 class HomePage extends StatelessWidget {
