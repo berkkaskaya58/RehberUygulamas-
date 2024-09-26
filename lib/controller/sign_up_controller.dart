@@ -128,20 +128,46 @@ class SignUpController extends GetxController {
       return UIColors.errorColor;
     }
   }
-
-  void signInWithEmailAndPassword() async {
-    if (signFormKey.currentState!.validate()) {
-      signFormKey.currentState!.save(); // Form verilerini kaydet
-      try {
-        await fireBaseAuth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        Get.off(() => const LoginPage());
-      } catch (e) {
-        Get.snackbar("Hata", "Kayıtlı Kullanıcı Bulunamadı!! ");
-        log(e.toString());
+void signInWithEmailAndPassword() async {
+  if (signFormKey.currentState!.validate()) {
+   
+    signFormKey.currentState!.save(); 
+    try {
+      if (areSamePasswords.value == false) {
+        Get.snackbar("Hata", "Şifreler eşleşmiyor"); 
+        return; 
       }
+
+      if (isValidEmail.value==false) {
+        Get.snackbar("Hata", "Geçersiz e-posta adresi.");
+        return;
+      }
+
+      if (isCorrectPassword.value==true) {
+        Get.snackbar("Hata", "Şifre en fazla 8 karakter olmalıdır.");
+        return;
+      }
+
+     
+      await fireBaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      Get.snackbar('Başarılı', 'Kullanıcı başarıyla kaydedildi'); 
+      Get.off(() => const LoginPage());
+    } catch (e) {
+      if (e.toString().contains('email-already-in-use')) {
+        Get.snackbar("Hata", "Bu e-posta adresi zaten kullanılıyor."); 
+      } else {
+        Get.snackbar("Hata", "Bir hata oluştu: ${e.toString()}"); 
+      }
+      log(e.toString()); 
     }
+  } else {
+    Get.snackbar("Hata", "Lütfen formu eksiksiz doldurun."); 
   }
+}
+
+
 }
