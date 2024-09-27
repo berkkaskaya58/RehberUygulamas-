@@ -9,7 +9,7 @@ import 'package:telefon_rehberi/view/view_home/bottom_navigation_bar.dart';
 
 class LoginController extends GetxController {
   var isLoading = false.obs;
-  final RxBool isChecked = false.obs;
+  final RxBool isChecked = true.obs;
   final loginFormKey = GlobalKey<FormState>();
   final fireBaseAuth = FirebaseAuth.instance;
   String email = '';
@@ -37,15 +37,7 @@ class LoginController extends GetxController {
   RxBool isCorrectPassword = false.obs;
   RxBool areSamePasswords = true.obs;
 
-  void isPassword(String password) {
-    if (password.isEmpty) {
-      isCorrectPassword.value = false;
-    } else if (password.length <= 8) {
-      isCorrectPassword.value = false;
-    } else {
-      isCorrectPassword.value = true;
-    }
-  }
+
 
   @override
   onInit() {
@@ -68,6 +60,10 @@ class LoginController extends GetxController {
       box1.put('email', emailController.text);
       box1.put('password', passwordController.text);
     }
+    else{
+      box1.put('email', '');
+       box1.put('password', '');
+    }
   }
   void getData()async {
     if(box1.get('email')!=null) {
@@ -77,7 +73,15 @@ class LoginController extends GetxController {
           passwordController.text=box1.get('password');
   }
   }
-
+  void isPassword(String password) {
+    if (password.isEmpty) {
+      isCorrectPassword.value = false;
+    } else if (password.length <= 8) {
+      isCorrectPassword.value = false;
+    } else {
+      isCorrectPassword.value = true;
+    }
+  }
   Color getPasswordBackgroundColor(String password) {
     if (password.isEmpty) {
       return UIColors.textFieldBackGround; // Boşken varsayılan border
@@ -129,22 +133,22 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> login() async {
-    isLoading(true);
-    try {
-      // Giriş işlemleri
-      await Future.delayed(const Duration(seconds: 2));
-      // Yönlendirme işlemi
-      Get.off(() =>
-          const CustomBottomNavigationBar()); // Yönlendirme stackten siler
-    } catch (e) {
-      // Hata yönetimi
+  // Future<void> login() async {
+  //   isLoading(true);
+  //   try {
+  //     // Giriş işlemleri
+  //     await Future.delayed(const Duration(seconds: 2));
+  //     // Yönlendirme işlemi
+  //     Get.off(() =>
+  //         const CustomBottomNavigationBar()); // Yönlendirme stackten siler
+  //   } catch (e) {
+  //     // Hata yönetimi
 
-      log(e.toString());
-    } finally {
-      isLoading(false);
-    }
-  }
+  //     log(e.toString());
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -161,6 +165,8 @@ class LoginController extends GetxController {
           email: email,
           password: password,
         );
+        hiveLogin();
+        const CircularProgressIndicator();
         Get.off(() => const CustomBottomNavigationBar());
       } catch (e) {
         Get.snackbar("Hata", "Kayıtlı Kullanıcı Bulunamadı!! ");

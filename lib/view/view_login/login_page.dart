@@ -13,8 +13,9 @@ import 'package:telefon_rehberi/widget/login_widget.dart/if_you_dont_have_accoun
 import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dart';
 
 class LoginPage extends StatelessWidget {
-
-  LoginPage({super.key, });
+  LoginPage({
+    super.key,
+  });
 
   final loginController =
       Get.put(LoginController()); // Controller'ı GetX ile bağla
@@ -143,6 +144,7 @@ class LoginPage extends StatelessWidget {
                                   func: () async {
                                     loginController
                                         .signInWithEmailAndPassword();
+                                  
                                   });
                         }),
                         const Customdivider(),
@@ -161,19 +163,22 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
-    
   }
- Widget getRememberMeandForgotPswrd() {
-   double paddingHorizontal = Get.width* 0.02;    // double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
-    return Row(                                   //kullanırsan da getRememberMeandForgotPswrd un içine BuildContext context vermen lazım
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,   //ama Get.width daha pratik ve contex e de gerek kalmıyor 
+
+  Widget getRememberMeandForgotPswrd() {
+    double paddingHorizontal = Get.width *
+        0.02; // double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
+    return Row(
+      //kullanırsan da getRememberMeandForgotPswrd un içine BuildContext context vermen lazım
+      mainAxisAlignment: MainAxisAlignment
+          .spaceBetween, //ama Get.width daha pratik ve contex e de gerek kalmıyor
       children: [
         Row(
           children: [
             GestureDetector(
               onTap: () {
-               loginController.changeIsChacked();
-                loginController.hiveLogin();
+                loginController.changeIsChacked();
+              
               },
               child: Obx(
                 () => Image.asset(
@@ -185,7 +190,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-             SizedBox(
+            SizedBox(
               width: paddingHorizontal,
             ),
             const BasicText(
@@ -206,5 +211,4 @@ class LoginPage extends StatelessWidget {
       ],
     );
   }
- 
 }
