@@ -9,7 +9,7 @@ import 'package:telefon_rehberi/view/view_home/bottom_navigation_bar.dart';
 
 class LoginController extends GetxController {
   var isLoading = false.obs;
-  final RxBool isChecked = true.obs;
+  final RxBool isChecked = false.obs;
   final loginFormKey = GlobalKey<FormState>();
   final fireBaseAuth = FirebaseAuth.instance;
   String email = '';

@@ -132,7 +132,7 @@ class LoginPage extends StatelessWidget {
                               )
                             : Container(),
                         SizedBox(height: paddingTop / 5),
-                        getRememberMeandForgotPswrd(context),
+                        getRememberMeandForgotPswrd(),
                         SizedBox(height: paddingTop / 2),
                         // Buton ve Yükleniyor Durumu
                         Obx(() {
@@ -163,10 +163,10 @@ class LoginPage extends StatelessWidget {
     );
     
   }
- Widget getRememberMeandForgotPswrd(BuildContext context) {
-   double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+ Widget getRememberMeandForgotPswrd() {
+   double paddingHorizontal = Get.width* 0.02;    // double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
+    return Row(                                   //kullanırsan da getRememberMeandForgotPswrd un içine BuildContext context vermen lazım
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,   //ama Get.width daha pratik ve contex e de gerek kalmıyor 
       children: [
         Row(
           children: [
