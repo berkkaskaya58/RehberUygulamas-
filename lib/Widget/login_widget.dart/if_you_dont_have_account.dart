@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:telefon_rehberi/view/view_login/login_page.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
+import 'package:telefon_rehberi/view/view_sign_up/sign_up_page.dart';
 
-class IfYouHaveAccound extends StatelessWidget {
-  const IfYouHaveAccound({super.key});
+class Ifyoudonthaveaccount extends StatelessWidget {
+  const Ifyoudonthaveaccount({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +13,15 @@ class IfYouHaveAccound extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const BasicText(
-          title: LocaleKeys.ifYouDoHaveAccound,
+          title: LocaleKeys.ifYouDoNotHaveAccound,
           fontSize: 14,
         ),
         GestureDetector(
             onTap: () {
-              Get.offAll(() => const LoginPage());
+              Get.offAll(() => const SignPage());
             },
             child: const BasicText(
-              title: LocaleKeys.login,
+              title: LocaleKeys.createAccound,
               fontSize: 14,
               fontWeight: FontWeight.w600,
             )),

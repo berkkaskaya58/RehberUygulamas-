@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telefon_rehberi/ui/ui_icons.dart';
 import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
 import 'package:telefon_rehberi/widget/widget_basic_text_field.dart';
@@ -8,17 +9,17 @@ import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_images.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/custom_divider.dart';
-import 'package:telefon_rehberi/widget/login_widget.dart/if_you_dont_have_accound.dart';
+import 'package:telefon_rehberi/widget/login_widget.dart/if_you_dont_have_account.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dart';
-import 'package:telefon_rehberi/widget/login_widget.dart/remember_me_forget_password.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  bool? isChecked;
+  LoginPage({super.key, this.isChecked});
 
+  final loginController =
+      Get.put(LoginController()); // Controller'ı GetX ile bağla
   @override
   Widget build(BuildContext context) {
-    final loginController =
-        Get.put(LoginController()); // Controller'ı GetX ile bağla
     double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
     double paddingTop = MediaQuery.of(context).size.height * 0.05;
 
@@ -99,7 +100,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: paddingTop / 5),
                         CustomTextField(
                           onSaved: (value) {
-                            loginController.password = value ;
+                            loginController.password = value;
                           },
                           focusNode: loginController.passwordFocusNode,
                           showIcon: true,
@@ -131,7 +132,7 @@ class LoginPage extends StatelessWidget {
                               )
                             : Container(),
                         SizedBox(height: paddingTop / 5),
-                        const RemembermeForgetpassword(),
+                        getRememberMeandForgotPswrd(),
                         SizedBox(height: paddingTop / 2),
                         // Buton ve Yükleniyor Durumu
                         Obx(() {
@@ -151,7 +152,7 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: paddingTop * 1.5,
                     ),
-                    const Ifyoudonthaveaccound(),
+                    const Ifyoudonthaveaccount(),
                   ],
                 ),
               ),
@@ -159,6 +160,48 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getRememberMeandForgotPswrd() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                loginController.isChecked.value = !loginController.isChecked.value;
+              },
+              child: Obx(
+                () => Image.asset(
+                  loginController.isChecked.value
+                      ? IconPath.checkSquare
+                      : IconPath.noCheckSquare,
+                  width: 20,
+                  height: 20,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            const BasicText(
+              title: LocaleKeys.rememberMe,
+            ),
+          ],
+        ),
+        GestureDetector(
+          onTap: () {
+            // Şifre sıfırlama fonksiyonunu tetikliyoruz
+            loginController.resetPassword();
+          },
+          child: const BasicText(
+            title: LocaleKeys.forgetPassword,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 }

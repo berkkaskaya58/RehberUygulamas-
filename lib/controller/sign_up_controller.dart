@@ -154,7 +154,7 @@ class SignUpController extends GetxController {
         );
 
         Get.snackbar('Başarılı', 'Kullanıcı başarıyla kaydedildi');
-        Get.off(() => const LoginPage());
+        Get.off(() => LoginPage());
       } catch (e) {
         if (e.toString().contains('email-already-in-use')) {
           Get.snackbar("Hata", "Bu e-posta adresi zaten kullanılıyor.");

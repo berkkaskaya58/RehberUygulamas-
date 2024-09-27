@@ -1,29 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:telefon_rehberi/ui/ui_icons.dart';
+// import 'package:flutter/material.dart';
+// import 'package:telefon_rehberi/ui/ui_icons.dart';
 
-class CustomCheckBox extends StatefulWidget {
-  const CustomCheckBox({super.key});
+// class CustomCheckBox extends StatefulWidget {
+//   const CustomCheckBox({super.key});
 
-  @override
-  State<CustomCheckBox> createState() => CustomCheckBoxState();
-}
+//   @override
+//   State<CustomCheckBox> createState() => CustomCheckBoxState();
+// }
 
-class CustomCheckBoxState extends State<CustomCheckBox> {
-  bool _isChecked = true;
+// class CustomCheckBoxState extends State<CustomCheckBox> {
+  
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isChecked = !_isChecked; 
-        });
-      },
-      child: Image.asset(
-        _isChecked ? IconPath.checkSquare : IconPath.noCheckSquare, 
-        width: 20,
-        height: 20,
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+//   }
+// }

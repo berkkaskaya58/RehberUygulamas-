@@ -27,6 +27,7 @@ class LoginController extends GetxController {
   FocusNode password2FocusNode = FocusNode();
   FocusNode nameFocusNode = FocusNode();
   FocusNode numberFocusNode = FocusNode();
+  RxBool isChecked = true.obs;
 
   // Şifre ve e-posta doğrulaması
   RxBool isValidEmail = true.obs;
@@ -132,4 +133,23 @@ class LoginController extends GetxController {
       }
     }
   }
+   Future<void> resetPassword() async {
+      try {
+        // Email controller'dan email adresini alıyoruz
+        String email = emailController.text.trim();
+        if (email.isNotEmpty) {
+          await fireBaseAuth.sendPasswordResetEmail(email: email);
+          // Başarılı olduğunda kullanıcıya bildirim verilebilir
+          Get.snackbar('', 'Şifre sıfırlama e-postası gönderildi.');
+        } else {
+          // E-posta boşsa kullanıcıya uyarı göster
+          Get.snackbar("", 'Lütfen geçerli bir e-posta adresi girin.');
+          // print(email.trim);
+        }
+      } catch (e) {
+        // Hata durumunda kullanıcıya mesaj gösterebilirsiniz
+        Get.snackbar("", 'Şifre Sıfırlama Işlemi Başarısız Oldu ');
+      }
+    }
+
 }

@@ -5,7 +5,7 @@ import 'package:telefon_rehberi/widget/basic_text.dart';
 import 'package:telefon_rehberi/generated/locale_keys.g.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/ui/ui_images.dart';
-import 'package:telefon_rehberi/widget/if_you_have_accound.dart';
+import 'package:telefon_rehberi/widget/if_you_have_account.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/custom_divider.dart';
 import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dart';
 import 'package:telefon_rehberi/widget/widget_button.dart';
@@ -172,7 +172,7 @@ class SignPage extends StatelessWidget {
                     const Customdivider(),
                     const OtherLoginButtons(),
                     SizedBox(height: paddingTop/2 ),
-                    const IfYouHaveAccound()
+                    const IfYouHaveAccount()
                   ],
                 ),
               ),
