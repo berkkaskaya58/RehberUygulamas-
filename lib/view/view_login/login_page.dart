@@ -13,8 +13,8 @@ import 'package:telefon_rehberi/widget/login_widget.dart/if_you_dont_have_accoun
 import 'package:telefon_rehberi/widget/login_widget.dart/other_login_buttons.dart';
 
 class LoginPage extends StatelessWidget {
-  bool? isChecked;
-  LoginPage({super.key, this.isChecked});
+
+  LoginPage({super.key, });
 
   final loginController =
       Get.put(LoginController()); // Controller'ı GetX ile bağla
@@ -132,7 +132,7 @@ class LoginPage extends StatelessWidget {
                               )
                             : Container(),
                         SizedBox(height: paddingTop / 5),
-                        getRememberMeandForgotPswrd(),
+                        getRememberMeandForgotPswrd(context),
                         SizedBox(height: paddingTop / 2),
                         // Buton ve Yükleniyor Durumu
                         Obx(() {
@@ -161,9 +161,10 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+    
   }
-
-  Widget getRememberMeandForgotPswrd() {
+ Widget getRememberMeandForgotPswrd(BuildContext context) {
+   double paddingHorizontal = MediaQuery.of(context).size.width * 0.05;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -171,7 +172,8 @@ class LoginPage extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                loginController.isChecked.value = !loginController.isChecked.value;
+               loginController.changeIsChacked();
+                loginController.hiveLogin();
               },
               child: Obx(
                 () => Image.asset(
@@ -183,8 +185,8 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 8,
+             SizedBox(
+              width: paddingHorizontal,
             ),
             const BasicText(
               title: LocaleKeys.rememberMe,
@@ -204,4 +206,5 @@ class LoginPage extends StatelessWidget {
       ],
     );
   }
+ 
 }

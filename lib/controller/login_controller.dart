@@ -3,16 +3,19 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:telefon_rehberi/ui/ui_color.dart';
 import 'package:telefon_rehberi/view/view_home/bottom_navigation_bar.dart';
 
 class LoginController extends GetxController {
   var isLoading = false.obs;
+  final RxBool isChecked = true.obs;
   final loginFormKey = GlobalKey<FormState>();
   final fireBaseAuth = FirebaseAuth.instance;
   String email = '';
   String password = '';
   final globalKey = GlobalKey<ScaffoldState>();
+  late Box box1;
 
   Color emailBorderColor = UIColors.borderColor;
   //  Rx<Color> emailColor = UIColors.noErrorColor.obs;
@@ -27,7 +30,7 @@ class LoginController extends GetxController {
   FocusNode password2FocusNode = FocusNode();
   FocusNode nameFocusNode = FocusNode();
   FocusNode numberFocusNode = FocusNode();
-  RxBool isChecked = true.obs;
+  
 
   // Şifre ve e-posta doğrulaması
   RxBool isValidEmail = true.obs;
@@ -42,6 +45,37 @@ class LoginController extends GetxController {
     } else {
       isCorrectPassword.value = true;
     }
+  }
+
+  @override
+  onInit() {
+    super.onInit();
+    createBox();
+    
+  }
+
+  void changeIsChacked() {
+    isChecked.value = !isChecked.value;
+  }
+
+  void createBox() async {
+    box1 = await Hive.openBox('loginData');
+    getData();
+  }
+
+  void hiveLogin() {
+    if (isChecked.value) {
+      box1.put('email', emailController.text);
+      box1.put('password', passwordController.text);
+    }
+  }
+  void getData()async {
+    if(box1.get('email')!=null) {
+      emailController.text=box1.get('email');
+  }
+  if(box1.get('password')!=null) {
+          passwordController.text=box1.get('password');
+  }
   }
 
   Color getPasswordBackgroundColor(String password) {
@@ -101,7 +135,8 @@ class LoginController extends GetxController {
       // Giriş işlemleri
       await Future.delayed(const Duration(seconds: 2));
       // Yönlendirme işlemi
-      Get.off(() => const CustomBottomNavigationBar()); // Yönlendirme stackten siler
+      Get.off(() =>
+          const CustomBottomNavigationBar()); // Yönlendirme stackten siler
     } catch (e) {
       // Hata yönetimi
 
@@ -133,23 +168,23 @@ class LoginController extends GetxController {
       }
     }
   }
-   Future<void> resetPassword() async {
-      try {
-        // Email controller'dan email adresini alıyoruz
-        String email = emailController.text.trim();
-        if (email.isNotEmpty) {
-          await fireBaseAuth.sendPasswordResetEmail(email: email);
-          // Başarılı olduğunda kullanıcıya bildirim verilebilir
-          Get.snackbar('', 'Şifre sıfırlama e-postası gönderildi.');
-        } else {
-          // E-posta boşsa kullanıcıya uyarı göster
-          Get.snackbar("", 'Lütfen geçerli bir e-posta adresi girin.');
-          // print(email.trim);
-        }
-      } catch (e) {
-        // Hata durumunda kullanıcıya mesaj gösterebilirsiniz
-        Get.snackbar("", 'Şifre Sıfırlama Işlemi Başarısız Oldu ');
-      }
-    }
 
+  Future<void> resetPassword() async {
+    try {
+      // Email controller'dan email adresini alıyoruz
+      String email = emailController.text.trim();
+      if (email.isNotEmpty) {
+        await fireBaseAuth.sendPasswordResetEmail(email: email);
+        // Başarılı olduğunda kullanıcıya bildirim verilebilir
+        Get.snackbar('', 'Şifre sıfırlama e-postası gönderildi.');
+      } else {
+        // E-posta boşsa kullanıcıya uyarı göster
+        Get.snackbar("", 'Lütfen geçerli bir e-posta adresi girin.');
+        // print(email.trim);
+      }
+    } catch (e) {
+      // Hata durumunda kullanıcıya mesaj gösterebilirsiniz
+      Get.snackbar("", 'Şifre Sıfırlama Işlemi Başarısız Oldu ');
+    }
+  }
 }
